@@ -1,0 +1,35 @@
+:host {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .cabecera {
+    display: flex;
+    align-items: flex-end;
+    min-height: 12.2rem;
+    padding: 0 2.4rem 2.1rem;
+    .titulo {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 2.6rem;
+      line-height: 3.1rem;
+    }
+  }
+  .contenido {
+    flex: 1;
+    padding: 9.5rem 4.6rem;
+    background-color: #f0f2ff;
+    display: flex;
+    align-items: center;
+    .imagen {
+      width: 100%;
+      max-width: 28.3rem;
+    }
+  }
+
+  .herramientas {
+    display: flex;
+    align-items: center;
+    min-height: 18.2rem;
+  }
+}

@@ -1,10 +1,31 @@
 <div class="cabecera"><h1 class="titulo">Bill Scannner</h1></div>
 <div class="contenido">
-  <img class="imagen" src="../../../assets/img/bill.svg" alt="" />
+  <img
+    class="imagen"
+    src="../../../assets/img/bill.svg"
+    (click)="escaneoCuenta()"
+  />
 </div>
 <div class="herramientas">
-  <p></p>
-  <input *ngIf="true" type="text" placeholder="Enter amount manually" />
-  <button *ngIf="false" routerLink="/billdetails">Confirm amount</button>
-  <button *ngIf="false" routerLink="/billdetails">Confirm bill</button>
+  <p *ngIf="escaneandoCuenta" class="texto-accion-scanner">
+    Scanning the bill...
+  </p>
+  <input
+    class="input-cuenta"
+    *ngIf="true"
+    type="text"
+    placeholder="Enter amount manually"
+    [(ngModel)]="cantidadManual"
+    (keyup)="generaImporte($event)"
+  />
+  <button
+    *ngIf="esCuentaManual"
+    routerLink="/billdetails/{{ cantidadManual }}"
+    class="boton-herramientas"
+  >
+    Confirm amount
+  </button>
+  <button *ngIf="false" routerLink="/billdetails" class="boton-herramientas">
+    Confirm bill
+  </button>
 </div>

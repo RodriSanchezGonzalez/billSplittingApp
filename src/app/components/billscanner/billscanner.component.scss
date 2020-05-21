@@ -30,7 +30,50 @@
 
   .herramientas {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
     min-height: 18.2rem;
+    padding: 3rem 2.4rem 5.4rem;
+    .texto-accion-scanner {
+      margin-bottom: 1.9rem;
+      font-weight: 500;
+      font-size: 1.4rem;
+      line-height: 2.1rem;
+      text-align: center;
+      color: #aeafbc;
+    }
+
+    .input-cuenta {
+      border: 0.15rem solid #f0f2ff;
+      flex: 1;
+      border-radius: 1.4rem;
+      width: 100%;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 1.4rem;
+      line-height: 2.1rem;
+      max-height: 5.8rem;
+      &:focus {
+        outline: none;
+      }
+      text-align: center;
+    }
+    .input-cuenta::placeholder {
+      color: #0029ff;
+    }
+
+    .boton-herramientas {
+      width: 100%;
+      margin-top: 1.5rem;
+      background: #0029ff;
+      border-radius: 1.4rem;
+      border: none;
+      color: white;
+      min-height: 2.5rem;
+      -webkit-box-shadow: 6px 2px 25px 1px rgba(0, 0, 0, 0.75);
+      -moz-box-shadow: 6px 2px 25px 1px rgba(0, 0, 0, 0.75);
+      box-shadow: 6px 2px 25px 1px rgba(0, 0, 0, 0.75);
+    }
   }
 }

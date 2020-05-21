@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-billscanner',
@@ -6,7 +7,38 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./billscanner.component.scss'],
 })
 export class BillscannerComponent implements OnInit {
-  constructor() {}
+  esCuentaManual: boolean;
+  cantidadManual: number;
+  escaneandoCuenta: boolean;
 
-  ngOnInit(): void {}
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.esCuentaManual = false;
+    this.escaneandoCuenta = false;
+  }
+
+  escaneoCuenta() {
+    this.cantidadManual = null;
+    if (this.escaneandoCuenta) {
+      window.alert('Está escaneando no me toque li botone');
+    } else {
+      this.escaneandoCuenta = true;
+      this.esCuentaManual = false;
+      let cuentaRandom: number = Math.random() * 100;
+      setTimeout(() => {
+        this.escaneandoCuenta = false;
+        this.router.navigate(['/billdetails'], {
+          queryParams: { cantidad: cuentaRandom.toFixed(2) },
+        });
+      }, 3000);
+    }
+  }
+
+  generaImporte(evento: any) {
+    this.escaneandoCuenta = false;
+    this.esCuentaManual = true;
+    console.log(evento.target.value);
+    this.cantidadManual = evento.target.value;
+  }
 }

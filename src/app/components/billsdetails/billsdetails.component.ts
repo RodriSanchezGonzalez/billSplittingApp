@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-billsdetails',
   templateUrl: './billsdetails.component.html',
@@ -10,7 +10,7 @@ export class BillsdetailsComponent implements OnInit {
   tipSeleccionado: string;
   splitSeleccionado: string;
 
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute, private route: Router) {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.cantidadCuenta = params['cantidad'];
       console.log(this.cantidadCuenta);
@@ -18,4 +18,8 @@ export class BillsdetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  navegar(cadena: string) {
+    this.route.navigate([cadena], { queryParamsHandling: 'preserve' });
+  }
 }

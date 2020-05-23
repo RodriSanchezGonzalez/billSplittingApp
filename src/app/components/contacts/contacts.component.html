@@ -1,7 +1,7 @@
 <div class="cabecera">
   <div class="barra">
     <img
-      (click)="navegar('/billdetails')"
+      (click)="navegar()"
       src="assets/img/icono-atras.svg"
       alt=""
       class="icono-atras"
@@ -12,93 +12,94 @@
     class="buscador-contacto"
     type="text"
     placeholder="Search by name or number"
+    (keyup)="filtrarContactos()"
+    [(ngModel)]="textoBusqueda"
   />
 </div>
-<div class="contenedor-sugeridos">
+<div class="contenedor-sugeridos" *ngIf="!textoBusqueda">
   <p class="texto-seccion">Suggested people</p>
-  <div class="lista">
-    <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-    <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-    <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-    <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-    <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
+  <div>
+    <div class="lista">
+      <div
+        *ngFor="let contacto of listaContactosSugerida"
+        (click)="[seleccionaSugerido(contacto)]"
+      >
+        <img
+          [src]="contacto.img"
+          alt=""
+          class="imagen-contacto"
+          [ngClass]="{
+            'sugerido-seleccionado': contacto.esContactoSeleccionado
+          }"
+        />
+      </div>
+    </div>
   </div>
 </div>
-<div class="lista-contactos">
-  <p class="texto-seccion">All contacs</p>
+<div
+  class="lista-contactos"
+  *ngIf="!textoBusqueda; else listaContactosFiltrada"
+>
+  <div class="cabecera-contactos">
+    <p class="texto-seccion">All contacs</p>
+    <i
+      class="fas fa-check-double icono-seleccionar-todos"
+      [ngClass]="{ 'todos-seleccionados': todosSeleccionados }"
+      (click)="seleccionarTodos()"
+    ></i>
+  </div>
+
   <div class="contenedor-contactos">
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
+    <div
+      *ngFor="let contacto of listaContactos"
+      class="contacto"
+      (click)="
+        contacto.esContactoSeleccionado = !contacto.esContactoSeleccionado
+      "
+    >
+      <img [src]="contacto.img" alt="" class="imagen-contacto" />
       <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
+        <h3 class="nombre">{{ contacto.nombre }}</h3>
+        <p class="numero">{{ contacto.telefono }}</p>
       </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
-    </div>
-    <div class="contacto">
-      <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
-      <div class="detalle-contacto">
-        <h3 class="nombre">Aarav</h3>
-        <p class="numero">+91 914662932</p>
-      </div>
+      <i
+        *ngIf="contacto.esContactoSeleccionado"
+        class="fas fa-user-check contacto-seleccionado"
+      ></i>
     </div>
   </div>
 </div>
+
+<ng-template #listaContactosFiltrada>
+  <div class="lista-contactos">
+    <p class="texto-seccion">Contacts filtered</p>
+    <div class="contenedor-contactos">
+      <div
+        *ngFor="let contacto of listaContactosSugerida"
+        class="contacto"
+        (click)="
+          contacto.esContactoSeleccionado = !contacto.esContactoSeleccionado
+        "
+      >
+        <img [src]="contacto.img" alt="" class="imagen-contacto" />
+        <div class="detalle-contacto">
+          <h3 class="nombre">{{ contacto.nombre }}</h3>
+          <p class="numero">{{ contacto.telefono }}</p>
+        </div>
+        <i
+          *ngIf="contacto.esContactoSeleccionado"
+          class="fas fa-user-check contacto-seleccionado"
+        ></i>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 <div class="boton-contacto">
-  <img class="icono-mas" src="assets/img/icono-mas-azul.svg" alt="" />
+  <img
+    class="icono-mas"
+    src="assets/img/icono-mas-azul.svg"
+    alt=""
+    (click)="envioContactosDetalleFactura()"
+  />
 </div>

@@ -41,4 +41,10 @@ export class BillscannerComponent implements OnInit {
     console.log(evento.target.value);
     this.cantidadManual = evento.target.value;
   }
+
+  navegar(cadena?: string) {
+    this.router.navigate([cadena], {
+      queryParams: { cantidad: this.cantidadManual },
+    });
+  }
 }

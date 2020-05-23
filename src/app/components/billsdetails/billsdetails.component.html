@@ -1,9 +1,17 @@
 <div class="contenedor-cabecera">
-  <h1 class="titulo" routerLink="/">Bill details</h1>
+  <div class="navegador">
+    <img
+      (click)="navegar()"
+      src="assets/img/icono-atras.svg"
+      alt=""
+      class="icono-atras"
+    />
+    <h1 class="titulo" routerLink="/">Bill details</h1>
+  </div>
   <div class="contenedor-detalle-cuenta">
     <div class="detalle-cuenta">
       <h3 class="subtitulo">Bill amount</h3>
-      <h1 class="cuenta">$ {{ cantidadCuenta }}</h1>
+      <h1 class="cuenta">$ {{ cantidadCuenta | number: ".2-2" }}</h1>
     </div>
     <img src="assets/img/icono.svg" alt="" class="icono" />
   </div>
@@ -13,7 +21,12 @@
     <p class="texto-seccion">Add people</p>
     <div class="lista">
       <div class="contenedor-contactos">
-        <img src="assets/img/ana.svg" alt="" class="imagen-contacto" />
+        <img
+          [src]="contacto.img"
+          alt=""
+          class="imagen-contacto"
+          *ngFor="let contacto of contactosDeFactura"
+        />
       </div>
 
       <div class="icono-mas" (click)="navegar('/contacts')">

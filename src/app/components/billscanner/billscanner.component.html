@@ -20,12 +20,16 @@
   />
   <button
     *ngIf="esCuentaManual"
-    routerLink="/billdetails/{{ cantidadManual }}"
+    (click)="navegar('/billdetails')"
     class="boton-herramientas"
   >
     Confirm amount
   </button>
-  <button *ngIf="false" routerLink="/billdetails" class="boton-herramientas">
+  <button
+    *ngIf="false"
+    (click)="navegar('/billdetails')"
+    class="boton-herramientas"
+  >
     Confirm bill
   </button>
 </div>

@@ -33,6 +33,53 @@ export class ContactsComponent implements OnInit {
 
   seleccionarTodos() {
     this.todosSeleccionados = !this.todosSeleccionados;
+    if (this.todosMismaPropiedadDeSeleccion()) {
+      this.revertirSeleccionados();
+    } else {
+      this.rellenarContactosNoSeleccionados();
+    }
+  }
+
+  rellenarContactosNoSeleccionados() {
+    for (let index = 0; index < this.listaContactos.length; index++) {
+      this.listaContactos[index].esContactoSeleccionado = true;
+    }
+  }
+
+  revertirSeleccionados() {
+    for (
+      let indiceContacto = 0;
+      indiceContacto < this.listaContactos.length;
+      indiceContacto++
+    ) {
+      this.listaContactos[indiceContacto].esContactoSeleccionado = !this
+        .listaContactos[indiceContacto].esContactoSeleccionado;
+    }
+  }
+
+  todosMismaPropiedadDeSeleccion() {
+    return (
+      this.calcularNumeroSeleccionados() === this.numeroContactos() ||
+      this.calcularNumeroSeleccionados() === 0
+    );
+  }
+
+  numeroContactos() {
+    return this.listaContactos.length;
+  }
+
+  calcularNumeroSeleccionados() {
+    let seleccionados: number = 0;
+    for (
+      let indiceContacto = 0;
+      indiceContacto < this.listaContactos.length;
+      indiceContacto++
+    ) {
+      if (this.listaContactos[indiceContacto].esContactoSeleccionado) {
+        seleccionados++;
+      }
+    }
+    return seleccionados;
   }
 
   navegar(cadena?: string) {
@@ -43,9 +90,14 @@ export class ContactsComponent implements OnInit {
     }
   }
 
-  seleccionaSugerido(contacto: Contacto) {
+  seleccionarContacto(contacto: Contacto) {
+    contacto.esContactoSeleccionado = !contacto.esContactoSeleccionado;
+    this.todosSeleccionados = this.todosMismaPropiedadDeSeleccion();
+  }
+
+  seleccionaSugerido(contactoSeleccionado: Contacto) {
     for (let index = 0; index < this.listaContactos.length; index++) {
-      if (this.listaContactos[index].nombre.indexOf(contacto.nombre, 0) > -1) {
+      if (this.listaContactos[index].nombre === contactoSeleccionado.nombre) {
         this.listaContactos[index].esContactoSeleccionado = !this
           .listaContactos[index].esContactoSeleccionado;
       }
@@ -53,10 +105,10 @@ export class ContactsComponent implements OnInit {
   }
 
   envioContactosDetalleFactura() {
-    this._contactoServicio.creaContactosDeFactura(
-      this.listaContactos.filter((contacto) => contacto.esContactoSeleccionado)
+    let contactoSeleccionados = this.listaContactos.filter(
+      (contacto) => contacto.esContactoSeleccionado
     );
-    console.log(this._contactoServicio.getContactosDeFactura());
+    this._contactoServicio.creaContactosDeFactura(contactoSeleccionados);
     this.navegar();
   }
 

@@ -42,6 +42,14 @@
 }
 /**** Final Fuentes ***************************************************/
 
+/**** Mensajes del toast **********************************************/
+@import "~ngx-toastr/toastr";
+
+.toast-container {
+  font-size: 1.4rem;
+}
+
+/****  FIN Mensajes del toast *****************************************/
 html,
 body {
   font-family: Gilroy;

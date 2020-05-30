@@ -53,9 +53,7 @@
     <div
       *ngFor="let contacto of listaContactos"
       class="contacto"
-      (click)="
-        contacto.esContactoSeleccionado = !contacto.esContactoSeleccionado
-      "
+      (click)="seleccionarContacto(contacto)"
     >
       <img [src]="contacto.img" alt="" class="imagen-contacto" />
       <div class="detalle-contacto">
@@ -95,11 +93,6 @@
   </div>
 </ng-template>
 
-<div class="boton-contacto">
-  <img
-    class="icono-mas"
-    src="assets/img/icono-mas-azul.svg"
-    alt=""
-    (click)="envioContactosDetalleFactura()"
-  />
+<div class="boton-contacto" (click)="envioContactosDetalleFactura()">
+  <img class="icono-mas" src="assets/img/icono-mas-azul.svg" alt="" />
 </div>

@@ -6,13 +6,19 @@
   .cabecera {
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     height: 17rem;
     padding: 0 2.4rem 2.1rem;
+    background-color: #0029ff;
     .titulo {
       font-style: normal;
       font-weight: 600;
       font-size: 2.6rem;
       line-height: 3.1rem;
+      color: white;
+    }
+    .imagen {
+      opacity: 0.5;
     }
   }
   .contenido {

@@ -8,7 +8,8 @@ import { BillscannerComponent } from './components/billscanner/billscanner.compo
 import { BillsdetailsComponent } from './components/billsdetails/billsdetails.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 import { RouterModule } from '@angular/router';
-
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,7 +17,18 @@ import { RouterModule } from '@angular/router';
     BillsdetailsComponent,
     ContactsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, RouterModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-center-center',
+      enableHtml: true,
+      timeOut: 1900,
+    }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -11,7 +11,18 @@
   <div class="contenedor-detalle-cuenta">
     <div class="detalle-cuenta">
       <h3 class="subtitulo">Bill amount</h3>
-      <h1 class="cuenta">$ {{ cantidadCuenta | number: ".2-2" }}</h1>
+      <h1 class="cuenta">
+        $ {{ cantidadCuenta | number: ".2-2" }}
+        <small *ngIf="tipSeleccionado === 'porcentaje'" class="propina"
+          >+ Tip: {{ cantidadCuenta * 0.1 | number: ".2-2" }}</small
+        >
+        <small *ngIf="tipSeleccionado === 'dolares'" class="propina"
+          >+ Tip: {{ 20 | number: ".2-2" }}</small
+        >
+        <small *ngIf="tipSeleccionado === 'manual'" class="propina"
+          >+ Tip: {{ propinaManual | number: ".2-2" }}</small
+        >
+      </h1>
     </div>
     <img src="assets/img/icono.svg" alt="" class="icono" />
   </div>
@@ -57,6 +68,7 @@
         placeholder="Enter manually"
         [ngClass]="{ seleccionado: tipSeleccionado === 'manual' }"
         (click)="tipSeleccionado = 'manual'"
+        [(ngModel)]="propinaManual"
       />
     </div>
   </div>
@@ -81,5 +93,5 @@
   </div>
 </div>
 <div class="contenedor-boton">
-  <button class="boton-procede">Proceed</button>
+  <button class="boton-procede" (click)="mostratDetalleFinal()">Proceed</button>
 </div>

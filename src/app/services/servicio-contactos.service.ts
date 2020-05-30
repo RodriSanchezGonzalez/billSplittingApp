@@ -72,6 +72,10 @@ export class ServicioContactosService {
   creaContactosDeFactura(contactos: Contacto[]) {
     this.contactosDeFactura = contactos;
   }
+
+  terminaFactura() {
+    this.contactosDeFactura = null;
+  }
 }
 
 export interface Contacto {
@@ -79,4 +83,5 @@ export interface Contacto {
   img: string;
   telefono: string;
   esContactoSeleccionado?: boolean;
+  detalleFinal?: number;
 }

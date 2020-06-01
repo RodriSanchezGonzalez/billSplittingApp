@@ -1,0 +1,25 @@
+<div class="contenedor-login">
+  <h1 class="titulo">Bill Splitting APP - Login</h1>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()" class="form-login">
+    <div class="bloque-usuario form-group">
+      <label class="subtitulo-login">Email</label>
+      <input
+        class="input-login"
+        type="email"
+        placeholder="Introduzca su email"
+        formControlName="email"
+      />
+    </div>
+    <div class="bloque-password form-group">
+      <label class="subtitulo-login">Password</label>
+      <input
+        class="input-login"
+        type="email"
+        placeholder="Introduzca su contraseña"
+        formControlName="password"
+      />
+    </div>
+    <button class="boton-login">Acceder</button>
+  </form>
+</div>

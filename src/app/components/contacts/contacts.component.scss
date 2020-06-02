@@ -52,6 +52,7 @@
       max-height: 10rem;
       margin-bottom: 2.4rem;
       .imagen-contacto {
+        cursor: pointer;
         width: 6.7rem;
         height: 6.7rem;
         border: 1.5px solid #f0f2ff;
@@ -95,6 +96,7 @@
       flex: 1;
       overflow-y: auto;
       .contacto {
+        cursor: pointer;
         display: flex;
         align-items: center;
         margin-bottom: 1.8rem;

@@ -1,97 +1,111 @@
-<div class="contenedor-cabecera">
-  <div class="navegador">
-    <img
-      (click)="navegar()"
-      src="assets/img/icono-atras.svg"
-      alt=""
-      class="icono-atras"
-    />
-    <h1 class="titulo" routerLink="/">Bill details</h1>
-  </div>
-  <div class="contenedor-detalle-cuenta">
-    <div class="detalle-cuenta">
-      <h3 class="subtitulo">Bill amount</h3>
-      <h1 class="cuenta">
-        $ {{ cantidadCuenta | number: ".2-2" }}
-        <small *ngIf="tipSeleccionado === 'porcentaje'" class="propina"
-          >+ Tip: {{ cantidadCuenta * 0.1 | number: ".2-2" }}</small
-        >
-        <small *ngIf="tipSeleccionado === 'dolares'" class="propina"
-          >+ Tip: {{ 20 | number: ".2-2" }}</small
-        >
-        <small *ngIf="tipSeleccionado === 'manual'" class="propina"
-          >+ Tip: {{ propinaManual | number: ".2-2" }}</small
-        >
-      </h1>
+<div class="contenedor-billdetails">
+  <div class="contenedor-cabecera">
+    <div class="navegador">
+      <img
+        (click)="navegar()"
+        src="assets/img/icono-atras.svg"
+        alt=""
+        class="icono-atras"
+      />
+      <h1 class="titulo" routerLink="/">Bill details</h1>
     </div>
-    <img src="assets/img/icono.svg" alt="" class="icono" />
+    <div class="contenedor-detalle-cuenta">
+      <div class="detalle-cuenta">
+        <h3 class="subtitulo">Bill amount</h3>
+        <h1 class="cuenta">
+          $ {{ cantidadCuenta | number: ".2-2" }}
+          <small *ngIf="tipSeleccionado === 'porcentaje'" class="propina"
+            >+ Tip: {{ cantidadCuenta * 0.1 | number: ".2-2" }}</small
+          >
+          <small *ngIf="tipSeleccionado === 'dolares'" class="propina"
+            >+ Tip: {{ 20 | number: ".2-2" }}</small
+          >
+          <small *ngIf="tipSeleccionado === 'manual'" class="propina"
+            >+ Tip: {{ propinaManual | number: ".2-2" }}</small
+          >
+        </h1>
+      </div>
+      <img src="assets/img/icono.svg" alt="" class="icono" />
+    </div>
   </div>
-</div>
-<div class="contenido">
-  <div class="sumar-gente">
-    <p class="texto-seccion">Add people</p>
-    <div class="lista">
-      <div class="contenedor-contactos">
-        <img
-          [src]="contacto.img"
-          alt=""
-          class="imagen-contacto"
-          *ngFor="let contacto of contactosDeFactura"
+  <div class="contenido">
+    <div class="sumar-gente">
+      <p class="texto-seccion">Add people</p>
+      <div class="lista">
+        <div class="contenedor-contactos">
+          <img
+            [src]="contacto.img"
+            alt=""
+            class="imagen-contacto"
+            *ngFor="let contacto of contactosDeFactura"
+          />
+        </div>
+
+        <div class="icono-mas" (click)="navegar('/contacts')">
+          <svg
+            viewBox="0 0 17 17"
+            xmlns="http://www.w3.org/2000/svg"
+            class="imagen"
+          >
+            <path
+              opacity="0.2"
+              d="M16.28 7.16H9.12V0H7.16V7.16H0V9.08H7.16V16.24H9.12V9.08H16.28V7.16Z"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="suma-propina">
+      <p class="texto-seccion">Add tip amount</p>
+      <div class="botonera-propina">
+        <button
+          class="boton-propina"
+          [ngClass]="{ seleccionado: tipSeleccionado === 'porcentaje' }"
+          (click)="tipSeleccionado = 'porcentaje'"
+        >
+          10%
+        </button>
+        <button
+          class="boton-propina"
+          [ngClass]="{ seleccionado: tipSeleccionado === 'dolares' }"
+          (click)="tipSeleccionado = 'dolares'"
+        >
+          $20
+        </button>
+        <input
+          class="input-propina"
+          type="text"
+          placeholder="Enter manually"
+          [ngClass]="{ seleccionado: tipSeleccionado === 'manual' }"
+          (click)="tipSeleccionado = 'manual'"
+          [(ngModel)]="propinaManual"
         />
       </div>
-
-      <div class="icono-mas" (click)="navegar('/contacts')">
-        <img src="assets/img/icono-mas.svg" class="imagen" />
+    </div>
+    <div class="dividir-cuenta">
+      <p class="texto-seccion">Split</p>
+      <div class="botonera-dividir">
+        <button
+          class="boton-dividir"
+          [ngClass]="{ seleccionado: splitSeleccionado === 'equally' }"
+          (click)="splitSeleccionado = 'equally'"
+        >
+          Equally
+        </button>
+        <button
+          class="boton-dividir consumption"
+          [ngClass]="{ seleccionado: splitSeleccionado === 'consumption' }"
+          (click)="splitSeleccionado = 'consumption'"
+        >
+          By consumption
+        </button>
       </div>
     </div>
   </div>
-  <div class="suma-propina">
-    <p class="texto-seccion">Add tip amount</p>
-    <div class="botonera-propina">
-      <button
-        class="boton-propina"
-        [ngClass]="{ seleccionado: tipSeleccionado === 'porcentaje' }"
-        (click)="tipSeleccionado = 'porcentaje'"
-      >
-        10%
-      </button>
-      <button
-        class="boton-propina"
-        [ngClass]="{ seleccionado: tipSeleccionado === 'dolares' }"
-        (click)="tipSeleccionado = 'dolares'"
-      >
-        $20
-      </button>
-      <input
-        class="input-propina"
-        type="text"
-        placeholder="Enter manually"
-        [ngClass]="{ seleccionado: tipSeleccionado === 'manual' }"
-        (click)="tipSeleccionado = 'manual'"
-        [(ngModel)]="propinaManual"
-      />
-    </div>
+  <div class="contenedor-boton">
+    <button class="boton-procede" (click)="mostratDetalleFinal()">
+      Proceed
+    </button>
   </div>
-  <div class="dividir-cuenta">
-    <p class="texto-seccion">Split</p>
-    <div class="botonera-dividir">
-      <button
-        class="boton-dividir"
-        [ngClass]="{ seleccionado: splitSeleccionado === 'equally' }"
-        (click)="splitSeleccionado = 'equally'"
-      >
-        Equally
-      </button>
-      <button
-        class="boton-dividir consumption"
-        [ngClass]="{ seleccionado: splitSeleccionado === 'consumption' }"
-        (click)="splitSeleccionado = 'consumption'"
-      >
-        By consumption
-      </button>
-    </div>
-  </div>
-</div>
-<div class="contenedor-boton">
-  <button class="boton-procede" (click)="mostratDetalleFinal()">Proceed</button>
 </div>

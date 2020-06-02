@@ -1,87 +1,109 @@
 :host {
-  height: 100%;
   width: 100%;
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  .cabecera {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    height: 17rem;
-    padding: 0 2.4rem 2.1rem;
-    background-color: #0029ff;
-    .titulo {
-      font-style: normal;
-      font-weight: 600;
-      font-size: 2.6rem;
-      line-height: 3.1rem;
-      color: white;
-    }
-    .imagen {
-      opacity: 0.5;
-    }
-  }
-  .contenido {
-    flex: 1;
-    padding: 9.5rem 4.6rem;
-    background-color: #f0f2ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-height: 40rem;
-    .imagen {
-      width: 100%;
-      max-width: 28.3rem;
-      cursor: pointer;
-    }
-  }
-
-  .herramientas {
+  justify-content: center;
+  .contenedor-billscanner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    min-height: 20.2rem;
-    padding: 3rem 2.4rem 5.4rem;
-    .texto-accion-scanner {
-      margin-bottom: 1.9rem;
-      font-weight: 500;
-      font-size: 1.4rem;
-      line-height: 2.1rem;
-      text-align: center;
-      color: #aeafbc;
-    }
-
-    .input-cuenta {
-      border: 0.15rem solid #f0f2ff;
-      flex: 1;
-      border-radius: 1.4rem;
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+    border-radius: 1.2rem;
+    box-shadow: 0px 4px 4px 0px #4e0707;
+    .cabecera {
       width: 100%;
-      font-style: normal;
-      font-weight: 500;
-      font-size: 1.4rem;
-      line-height: 2.1rem;
-      max-height: 5.8rem;
-      &:focus {
-        outline: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 12rem;
+      padding: 0 2.4rem 2.1rem;
+      .titulo {
+        font-family: Poppins;
+        font-size: 3rem;
+        font-weight: 400;
+        color: white;
       }
-      text-align: center;
+      .imagen {
+        opacity: 0.5;
+      }
     }
-    .input-cuenta::placeholder {
-      color: #0029ff;
+    .contenido {
+      flex: 1;
+      padding: 0 3.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: 40rem;
+      .imagen {
+        width: 100%;
+        max-width: 28.3rem;
+        cursor: pointer;
+        box-shadow: 0px 4px 4px 0px #4e0707;
+        border-radius: 1.7rem;
+      }
     }
 
-    .boton-herramientas {
-      width: 100%;
-      margin-top: 1.5rem;
-      background: #0029ff;
-      border-radius: 1.4rem;
-      border: none;
-      color: white;
-      min-height: 3.8rem;
-      -webkit-box-shadow: 6px 2px 25px 1px rgba(0, 0, 0, 0.75);
-      -moz-box-shadow: 6px 2px 25px 1px rgba(0, 0, 0, 0.75);
-      box-shadow: 6px 2px 25px 1px rgba(0, 0, 0, 0.75);
+    .herramientas {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 20.2rem;
+      padding: 3rem 2.4rem 5.4rem;
+      .texto-accion-scanner {
+        font-family: Poppins;
+        margin-bottom: 1.9rem;
+        font-weight: 700;
+        font-size: 2rem;
+        line-height: 2.1rem;
+        text-align: center;
+        color: #ffffff;
+      }
+
+      .input-cuenta {
+        text-align: left;
+        border: none;
+        outline: none;
+        font-family: Poppins;
+        font-size: 1.4rem;
+        font-weight: 300;
+        color: white;
+        line-height: 1.2;
+        width: 100%;
+        height: 4.5rem;
+        background: transparent;
+
+        border-bottom: 0.1rem solid rgb(238, 233, 233);
+        margin-bottom: 2rem;
+        &::placeholder {
+          color: white;
+          text-align: center;
+        }
+      }
+
+      .boton-herramientas {
+        outline: none;
+        cursor: pointer;
+        font-family: Poppins;
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: black;
+        margin-top: auto;
+        margin-bottom: 6rem;
+        padding: 1.5rem 4rem;
+        border: none;
+        background-color: white;
+        border-radius: 3rem;
+        box-shadow: 0px 4px 4px 0px #4e0707;
+      }
+      .boton-herramientas:hover {
+        color: white;
+        background-image: none;
+        background-color: #ff00ff;
+      }
     }
   }
 }

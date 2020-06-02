@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { LoginComponent } from './components/login/login.component';
       enableHtml: true,
       timeOut: 1900,
     }),
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

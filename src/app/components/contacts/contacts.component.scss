@@ -1,20 +1,26 @@
 :host {
-  height: 100%;
   width: 100%;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  padding: 3rem 2.9rem 5.5rem 2.4rem;
+  padding: 2.2rem 2.9rem 0 2.4rem;
+  background-color: #f7f7f7;
+  border-radius: 1.2rem;
+  position: relative;
+  height: 100%;
 
   .cabecera {
-    margin-bottom: 2.4rem;
+    margin: 1.8rem 1.2rem;
     .barra {
       display: flex;
       margin-bottom: 2.2rem;
       .icono-atras {
+        cursor: pointer;
         margin-right: 1.384rem;
       }
       .titulo {
-        font-weight: 600;
+        font-family: Poppins;
+        font-weight: 500;
         font-size: 2.6rem;
         line-height: 3.1rem;
         color: #1c1c1c;
@@ -24,7 +30,7 @@
       border: 0.15rem solid #f0f2ff;
       border-radius: 1.4rem;
       outline: 0;
-      min-width: 32.7rem;
+      width: 100%;
       min-height: 5.8rem;
       padding: 0 1.8rem;
     }
@@ -43,7 +49,7 @@
       display: flex;
       max-width: 40rem;
       overflow-x: auto;
-      max-height: 7rem;
+      max-height: 10rem;
       margin-bottom: 2.4rem;
       .imagen-contacto {
         width: 6.7rem;
@@ -78,6 +84,7 @@
       }
       .icono-seleccionar-todos {
         opacity: 0.5;
+        margin-right: 2.9rem;
         &.todos-seleccionados {
           opacity: 1;
         }
@@ -98,6 +105,10 @@
           max-width: 4rem;
           max-height: 4rem;
           margin-right: 1.4rem;
+          opacity: 0.5;
+          &.contacto-seleccionado {
+            opacity: 1;
+          }
         }
         .detalle-contacto {
           flex: 1;
@@ -123,10 +134,11 @@
     }
   }
   .boton-contacto {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed;
+    position: absolute;
     background: #ffffff;
     box-shadow: 0px 2rem 8.4rem rgba(0, 0, 0, 0.3);
     border-radius: 50%;

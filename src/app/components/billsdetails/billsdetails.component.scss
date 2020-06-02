@@ -1,222 +1,268 @@
 :host {
-  height: 100%;
   width: 100%;
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  .contenedor-cabecera {
+  justify-content: center;
+  height: 100%;
+  .contenedor-billdetails {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    min-height: 12rem;
-    color: white;
-    background-color: #0029ff;
-    height: 17rem;
-    padding: 4rem 3rem 1rem;
-    .navegador {
+    align-items: center;
+    border-radius: 1.2rem;
+    box-shadow: 0px 4px 4px 0px #4e0707;
+    overflow-y: auto;
+    .contenedor-cabecera {
       display: flex;
-      align-items: center;
-      margin-bottom: 3.4rem;
-      .titulo {
-        font-weight: 500;
-        font-size: 2.6rem;
-        line-height: 3.1rem;
+      flex-direction: column;
+      width: 100%;
+      color: white;
+      background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+      max-height: 17rem;
+      border-radius: 1.2rem;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      padding: 4rem 3rem 1rem;
+      .navegador {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        margin-bottom: 3.4rem;
+        .titulo {
+          font-weight: 500;
+          font-size: 2.6rem;
+          line-height: 3.1rem;
+        }
+        .icono-atras {
+          margin-right: 1rem;
+        }
       }
-      .icono-atras {
-        margin-right: 1rem;
+      .contenedor-detalle-cuenta {
+        display: flex;
+        align-items: center;
+        .detalle-cuenta {
+          flex: 1;
+          .subtitulo {
+            font-weight: 500;
+            font-size: 1.4rem;
+            line-height: 1.6rem;
+            margin-bottom: 0.8rem;
+          }
+          .cuenta {
+            font-weight: 500;
+            font-size: 2.4rem;
+            line-height: 2.9rem;
+            .propina {
+              font-weight: 100;
+              font-size: 1.5rem;
+              line-height: 2.3rem;
+            }
+          }
+        }
       }
     }
-    .contenedor-detalle-cuenta {
-      display: flex;
-      align-items: center;
-      .detalle-cuenta {
-        flex: 1;
-        .subtitulo {
+    .contenido {
+      flex: 1;
+      border: none;
+      padding: 3rem 1.5rem 1.4rem 2.4rem;
+      background-color: #f7f7f7;
+      width: 100%;
+      min-height: 25rem;
+      overflow-y: auto;
+      .sumar-gente {
+        margin-bottom: 1rem;
+        .texto-seccion {
           font-weight: 500;
           font-size: 1.4rem;
           line-height: 1.6rem;
-          margin-bottom: 0.8rem;
+          color: #aeafbc;
+          margin-bottom: 1.4rem;
         }
-        .cuenta {
-          font-weight: 500;
-          font-size: 2.4rem;
-          line-height: 2.9rem;
-          .propina {
-            font-weight: 100;
-            font-size: 1.5rem;
-            line-height: 2.3rem;
-          }
-        }
-      }
-    }
-  }
-  .contenido {
-    flex: 1;
-    padding: 3rem 1.5rem 1.4rem 2.4rem;
-    .sumar-gente {
-      margin-bottom: 1rem;
-      .texto-seccion {
-        font-weight: 500;
-        font-size: 1.4rem;
-        line-height: 1.6rem;
-        color: #aeafbc;
-        margin-bottom: 1.4rem;
-      }
-      .lista {
-        display: flex;
-        align-items: center;
-        max-height: 7rem;
-        .contenedor-contactos {
+        .lista {
           display: flex;
-          max-width: 40rem;
-          overflow-x: auto;
-          margin-right: 1rem;
-          .imagen-contacto {
-            width: 6.7rem;
-            height: 6.7rem;
+          align-items: center;
+          max-height: 7rem;
+          .contenedor-contactos {
+            display: flex;
+            max-width: 40rem;
+            overflow-x: auto;
+            margin-right: 1rem;
+            .imagen-contacto {
+              width: 6.7rem;
+              height: 6.7rem;
+              min-width: 6.7rem;
+              min-height: 6.7rem;
+              border: 1.5px solid #f0f2ff;
+              border-radius: 50%;
+              margin-right: 0.5rem;
+            }
+          }
+
+          .icono-mas {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-width: 6.7rem;
             min-height: 6.7rem;
-            border: 1.5px solid #f0f2ff;
+            border: 0.2rem dashed #f0f2ff;
             border-radius: 50%;
-            margin-right: 0.5rem;
+            &:hover {
+              border: 0.2rem dashed #0029ff;
+              .imagen {
+                path {
+                  fill: #0029ff;
+                  opacity: 0.7;
+                }
+              }
+            }
+            .imagen {
+              width: 100%;
+              height: 100%;
+              max-width: 1.7rem;
+              fill: #0029ff;
+            }
           }
         }
+      }
 
-        .icono-mas {
+      .suma-propina {
+        margin-bottom: 2.4rem;
+        .texto-seccion {
+          font-weight: 500;
+          font-size: 1.4rem;
+          line-height: 1.6rem;
+          color: #aeafbc;
+          margin-bottom: 1.4rem;
+        }
+        .botonera-propina {
           display: flex;
-          justify-content: center;
           align-items: center;
-          min-width: 6.7rem;
-          min-height: 6.7rem;
-          border: 0.2rem dashed #f0f2ff;
-          border-radius: 50%;
-          .imagen {
+          overflow: auto;
+          height: 5.8rem;
+          .boton-propina {
             height: 100%;
+            min-width: 6.7rem;
+            border: 0.15rem solid #f0f2ff;
+            border-radius: 1.4rem;
+            color: rgba(0, 42, 255, 0.449);
+            margin-right: 1.8rem;
+            background-color: transparent;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.7rem;
+            line-height: 2.1rem;
+            outline: none;
+            &.seleccionado {
+              background: #f0f2ff;
+              border: 1.5px solid #0029ff;
+              border-radius: 14px;
+              font-weight: 600;
+              font-size: 18px;
+              line-height: 21px;
+              color: #0029ff;
+            }
+          }
+          .input-propina {
+            height: 100%;
+            color: rgba(0, 42, 255, 0.449);
+            background-color: transparent;
+            flex: 1;
+            border: 1.5px solid #f0f2ff;
+            border-radius: 1.4rem;
+            text-align: center;
+            outline: none;
+            max-width: 15.7rem;
+            &.seleccionado {
+              background: #f0f2ff;
+              border: 1.5px solid #0029ff;
+              border-radius: 14px;
+              font-weight: 600;
+              font-size: 18px;
+              line-height: 21px;
+              color: #0029ff;
+            }
+          }
+          .input-propina::placeholder {
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.6rem;
+            line-height: 2.1rem;
+            color: rgba(0, 42, 255, 0.449);
+          }
+        }
+      }
+      .dividir-cuenta {
+        overflow: auto;
+        .texto-seccion {
+          font-weight: 500;
+          font-size: 1.4rem;
+          line-height: 1.6rem;
+          color: #aeafbc;
+          margin-bottom: 1.4rem;
+        }
+        .botonera-dividir {
+          display: flex;
+          align-items: center;
+          height: 5.8rem;
+          .boton-dividir {
+            color: rgba(0, 42, 255, 0.449);
+            height: 100%;
+            min-width: 9.6rem;
+            border: 0.15rem solid #f0f2ff;
+            border-radius: 1.4rem;
+            margin-right: 1.8rem;
+            background-color: transparent;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 1.7rem;
+            line-height: 2.1rem;
+            outline: none;
+            &.consumption {
+              width: 100%;
+              min-width: 16.8rem;
+            }
+            &.seleccionado {
+              background: #f0f2ff;
+              border: 1.5px solid #0029ff;
+              border-radius: 14px;
+              font-weight: 600;
+              font-size: 18px;
+              line-height: 21px;
+              color: #0029ff;
+            }
           }
         }
       }
     }
-
-    .suma-propina {
-      margin-bottom: 2.4rem;
-      .texto-seccion {
+    .contenedor-boton {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding: 3rem 2.4rem 5.5rem;
+      background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+      border-radius: 1.2rem;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+      .boton-procede {
+        outline: none;
+        cursor: pointer;
+        font-family: Poppins;
+        font-size: 1.6rem;
         font-weight: 500;
-        font-size: 1.4rem;
-        line-height: 1.6rem;
-        color: #aeafbc;
-        margin-bottom: 1.4rem;
+        color: black;
+        padding: 1.5rem 4rem;
+        border: none;
+        background-color: white;
+        border-radius: 3rem;
+        box-shadow: 0px 4px 4px 0px #4e0707;
       }
-      .botonera-propina {
-        display: flex;
-        align-items: center;
-        height: 5.8rem;
-
-        .boton-propina {
-          height: 100%;
-          min-width: 6.7rem;
-          border: 0.15rem solid #f0f2ff;
-          border-radius: 1.4rem;
-          color: rgba(0, 41, 255, 0.2);
-          margin-right: 1.8rem;
-          background-color: transparent;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 1.7rem;
-          line-height: 2.1rem;
-          outline: none;
-          &.seleccionado {
-            background: #f0f2ff;
-            border: 1.5px solid #0029ff;
-            border-radius: 14px;
-            font-weight: 600;
-            font-size: 18px;
-            line-height: 21px;
-            color: #0029ff;
-          }
-        }
-        .input-propina {
-          height: 100%;
-          flex: 1;
-          border: 1.5px solid #f0f2ff;
-          border-radius: 1.4rem;
-          text-align: center;
-          outline: none;
-          max-width: 15.7rem;
-          &.seleccionado {
-            background: #f0f2ff;
-            border: 1.5px solid #0029ff;
-            border-radius: 14px;
-            font-weight: 600;
-            font-size: 18px;
-            line-height: 21px;
-            color: #0029ff;
-          }
-        }
-        .input-propina::placeholder {
-          font-style: normal;
-          font-weight: 500;
-          font-size: 1.6rem;
-          line-height: 2.1rem;
-          color: rgba(0, 41, 255, 0.2);
-        }
+      .boton-procede:hover {
+        color: white;
+        background-image: none;
+        background-color: #ff00ff;
       }
-    }
-    .dividir-cuenta {
-      .texto-seccion {
-        font-weight: 500;
-        font-size: 1.4rem;
-        line-height: 1.6rem;
-        color: #aeafbc;
-        margin-bottom: 1.4rem;
-      }
-      .botonera-dividir {
-        display: flex;
-        align-items: center;
-        height: 5.8rem;
-        .boton-dividir {
-          height: 100%;
-          min-width: 9.6rem;
-          border: 0.15rem solid #f0f2ff;
-          border-radius: 1.4rem;
-          color: rgba(0, 41, 255, 0.2);
-          margin-right: 1.8rem;
-          background-color: transparent;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 1.7rem;
-          line-height: 2.1rem;
-          outline: none;
-          &.consumption {
-            width: 100%;
-            min-width: 16.8rem;
-          }
-          &.seleccionado {
-            background: #f0f2ff;
-            border: 1.5px solid #0029ff;
-            border-radius: 14px;
-            font-weight: 600;
-            font-size: 18px;
-            line-height: 21px;
-            color: #0029ff;
-          }
-        }
-      }
-    }
-  }
-  .contenedor-boton {
-    display: flex;
-    align-items: center;
-    padding: 3rem 2.4rem 5.5rem;
-    .boton-procede {
-      background: #0029ff;
-      border-radius: 1.4rem;
-      font-weight: 500;
-      font-size: 2rem;
-      line-height: 2.4rem;
-      border: none;
-      color: #ffffff;
-      outline: none;
-      min-width: 32.7rem;
-      min-height: 5.8rem;
-      text-align: center;
     }
   }
 }

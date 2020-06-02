@@ -52,6 +52,12 @@
 /****  FIN Mensajes del toast *****************************************/
 html,
 body {
+  height: 100%;
+  width: 100%;
   font-family: Gilroy;
   font-size: 62.5%;
+  background-image: -webkit-linear-gradient(top, #7579ff1a, #b224ef61),
+    url("/assets/img/ciudad.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }

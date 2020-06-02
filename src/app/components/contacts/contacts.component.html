@@ -55,17 +55,29 @@
       class="contacto"
       (click)="seleccionarContacto(contacto)"
     >
-      <img [src]="contacto.img" alt="" class="imagen-contacto" />
+      <img
+        [src]="contacto.img"
+        alt=""
+        class="imagen-contacto"
+        [ngClass]="{
+          'contacto-seleccionado': contacto.esContactoSeleccionado
+        }"
+      />
       <div class="detalle-contacto">
         <h3 class="nombre">{{ contacto.nombre }}</h3>
         <p class="numero">{{ contacto.telefono }}</p>
       </div>
+
       <i
         *ngIf="contacto.esContactoSeleccionado"
         class="fas fa-user-check contacto-seleccionado"
       ></i>
     </div>
   </div>
+</div>
+
+<div class="boton-contacto" (click)="envioContactosDetalleFactura()">
+  <img class="icono-mas" src="assets/img/icono-mas-azul.svg" alt="" />
 </div>
 
 <ng-template #listaContactosFiltrada>
@@ -92,7 +104,3 @@
     </div>
   </div>
 </ng-template>
-
-<div class="boton-contacto" (click)="envioContactosDetalleFactura()">
-  <img class="icono-mas" src="assets/img/icono-mas-azul.svg" alt="" />
-</div>

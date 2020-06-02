@@ -1,10 +1,11 @@
 .contenedor {
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  max-width: 40rem;
   font-size: 1.6rem;
   margin: auto;
   flex-direction: column;
+  width: 100%;
+  max-width: 50rem;
+  padding: 4rem;
 }

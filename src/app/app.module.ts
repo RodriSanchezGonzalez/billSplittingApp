@@ -12,6 +12,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BillsListComponent } from './components/bills-list/bills-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     BillsdetailsComponent,
     ContactsComponent,
     LoginComponent,
+    BillsListComponent,
   ],
   imports: [
     BrowserModule,

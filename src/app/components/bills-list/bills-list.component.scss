@@ -1,0 +1,88 @@
+:host {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  .contenedor-facturas {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1.2rem;
+    box-shadow: 0px 4px 4px 0px #4e0707;
+    .cabecera {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      color: white;
+      background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+      min-height: 17rem;
+      border-radius: 1.2rem;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      padding: 0 3rem 1rem;
+      .icono-atras {
+        cursor: pointer;
+        margin-right: 1rem;
+      }
+      .titulo {
+        font-weight: 500;
+        font-size: 2.6rem;
+        line-height: 3.1rem;
+      }
+    }
+
+    .lista-facturas {
+      flex: 1;
+      width: 100%;
+      display: grid;
+      background-color: #f7f7f7;
+      padding: 2rem 2rem;
+      grid-template-columns: repeat(4, minmax(3rem, 1fr));
+      grid-template-rows: repeat(auto-fill, minmax(3rem, 3rem));
+      row-gap: 1rem;
+      column-gap: 0.5rem;
+      align-items: baseline;
+      border-radius: 1.2rem;
+      border-top-right-radius: 0;
+      border-top-left-radius: 0;
+      .columna {
+        font-weight: 600;
+        font-size: 1.8rem;
+      }
+      .columna-tools {
+        font-weight: 600;
+        font-size: 1.8rem;
+      }
+
+      .columna-datos {
+        font-size: 1.3rem;
+      }
+      .icono-herramienta-small {
+        cursor: pointer;
+        width: 100%;
+        max-width: 1.5rem;
+        &:hover {
+          transform: scale(1.2);
+          transition: 2s;
+        }
+      }
+      .iconos-herramientas {
+        grid-column: 1/5;
+        display: flex;
+        justify-content: space-evenly;
+        .icono-herramienta {
+          cursor: pointer;
+          height: 100%;
+          width: 100%;
+          max-width: 2rem;
+          &:hover {
+            transform: scale(1.5);
+            transition: 2s;
+          }
+        }
+      }
+    }
+  }
+}

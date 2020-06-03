@@ -49,7 +49,7 @@ export class BillsdetailsComponent implements OnInit {
     } else {
       this.toastr.success(this.detalleDeFactura());
       this._servicioContacto.terminaFactura();
-      setTimeout(() => this.route.navigate(['/']), 2000);
+      setTimeout(() => this.route.navigate(['/billsList']), 2000);
     }
   }
 

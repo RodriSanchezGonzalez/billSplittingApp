@@ -141,6 +141,7 @@
           overflow: auto;
           height: 5.8rem;
           .boton-propina {
+            cursor: pointer;
             height: 100%;
             min-width: 6.7rem;
             border: 0.15rem solid #f0f2ff;
@@ -206,6 +207,7 @@
           align-items: center;
           height: 5.8rem;
           .boton-dividir {
+            cursor: pointer;
             color: rgba(0, 42, 255, 0.449);
             height: 100%;
             min-width: 9.6rem;

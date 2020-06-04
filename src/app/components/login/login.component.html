@@ -19,24 +19,39 @@
   <h1 class="titulo">LOG IN</h1>
 
   <form [formGroup]="loginForm" (ngSubmit)="login()" class="form-login">
-    <div class="bloque-usuario">
-      <label class="subtitulo-login">Email</label>
-      <input
-        class="input-login"
-        type="email"
-        placeholder="Introduzca su email"
-        formControlName="email"
-      />
+    <ng-container *ngIf="!clickEnDemo">
+      <div class="bloque-usuario">
+        <label class="subtitulo-login">Email</label>
+        <input
+          class="input-login"
+          type="email"
+          placeholder="Introduzca su email"
+          formControlName="email"
+        />
+      </div>
+      <div class="bloque-password">
+        <label class="subtitulo-login">Password</label>
+        <input
+          class="input-login"
+          type="text"
+          placeholder="Introduzca su contraseña"
+          formControlName="password"
+        />
+      </div>
+    </ng-container>
+    <button class="boton-login" routerLink="/billscanner" *ngIf="!clickEnDemo">
+      Enter
+    </button>
+
+    <div class="contenedor-usuarios" *ngIf="clickEnDemo">
+      <div class="usuario" *ngFor="let usuario of usuariosDemo">
+        <h3 class="nombre">{{ usuario.nombre }}</h3>
+        <img class="imagen" [src]="usuario.avatarURL" alt="" />
+        <button class="boton-login small">Go</button>
+      </div>
     </div>
-    <div class="bloque-password">
-      <label class="subtitulo-login">Password</label>
-      <input
-        class="input-login"
-        type="text"
-        placeholder="Introduzca su contraseña"
-        formControlName="password"
-      />
-    </div>
-    <button class="boton-login" routerLink="/billscanner">Acceder</button>
+    <button class="boton-login" (click)="mostrarUsuariosDemo()">
+      {{ obtenerTextoDemo() }}
+    </button>
   </form>
 </div>

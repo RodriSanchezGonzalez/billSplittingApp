@@ -14,14 +14,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.mockApiService.obtenerTodaLaBaseDeDatos$().subscribe((datos) => {
-      console.log(datos);
       let objeto = {
         nombre: 'Rodrigo',
         email: 'email.com',
       };
-      this.mockApiService
-        .sobreescribirBaseDeDatos$(objeto)
-        .subscribe((nuevosDatos) => console.log(nuevosDatos));
+      this.mockApiService.sobreescribirBaseDeDatos$(objeto).subscribe();
     });
   }
 }

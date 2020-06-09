@@ -5,4 +5,6 @@ export interface User {
   telefono: string;
   avatarURL: string;
   fechaDeCreacion: Date;
+  demoActivada: boolean;
+  esContactoSeleccionado: boolean;
 }

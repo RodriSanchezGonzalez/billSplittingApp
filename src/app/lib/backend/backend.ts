@@ -2,8 +2,11 @@ import {
   randomDate,
   generateGuid,
   obtenerNumeroDeVecesPorCadaElementoDeUnArray,
+  obtenerArrayDeObjeto,
+  tokenHaExpirado,
+  tiempoDeExpiracion,
 } from './helpers.js';
-import { bbdd } from './bbdd.js';
+import { bbdd, sobreEscribirBBDD } from './bbdd.js';
 import { delay } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { throwError } from 'rxjs';
@@ -14,11 +17,9 @@ import {
   TipoDeReparticionModelo,
   TipoDeFacturaModelo,
 } from './modelos.model.js';
+import { CredencialesDTO } from '../servicio/Requests/requests.model.js';
 
-const obtenerArrayDeObjeto = (obj) => {
-  return Object.keys(obj).map((key) => obj[key]);
-};
-
+/* No modifican datos */
 export function obtenerFacturasPorUsuarioId(usuarioId: string) {
   let facturasIds: Array<string> = obtenerArrayDeObjeto(
     bbdd.r_facturas_usuarios
@@ -61,6 +62,28 @@ export function obtenerUsuarios() {
   return of(usuarios).pipe(delay(1000));
 }
 
+export function obtenerUsuarioConectado() {
+  let token = localStorage.getItem('token');
+  let bbddToken = bbdd.tokens[token];
+  let usuarioConectado = null;
+  if (token && bbddToken) {
+    usuarioConectado = gestionarExpiracionToken(bbddToken);
+  } else {
+    localStorage.setItem('bbdd', JSON.stringify(bbdd));
+  }
+  return of(usuarioConectado).pipe(delay(1000));
+}
+
+function gestionarExpiracionToken(bbddToken) {
+  let usuarioConectado = null;
+  if (tokenHaExpirado(bbddToken.fechaDeExpiracion)) {
+    localStorage.removeItem('token');
+  } else {
+    usuarioConectado = bbdd.usuarios[bbddToken.usuarioId];
+  }
+  return usuarioConectado;
+}
+
 export function obtenerUsuarioPorId(usuarioId) {
   let usuario: UsuarioModelo = { ...bbdd.usuarios[usuarioId] };
   return of(usuario).pipe(delay(1000));
@@ -85,6 +108,7 @@ export function obtenerTiposDeFacturas() {
   return of(obtenerArrayDeObjeto(bbdd.tipo_de_facturas)).pipe(delay(1000));
 }
 
+/* Modifican datos */
 export function anadirContacto(usuarioId, contactoId) {
   if (!usuarioId) {
     return throwError('Es obligatorio indicar el id del usuario');
@@ -106,6 +130,7 @@ export function anadirContacto(usuarioId, contactoId) {
     contactoId: contactoId,
     fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
   };
+  localStorage.setItem('bbdd', JSON.stringify(bbdd));
   return of(bbdd.usuarios[contactoId]).pipe(delay(1000));
 }
 
@@ -120,11 +145,14 @@ export function eliminarContacto(usuarioId, contactoId) {
     return throwError('No existe relacion entre usuario y contacto');
   }
   delete bbdd.contactos[`${usuarioId}-${contactoId}`];
+  localStorage.setItem('bbdd', JSON.stringify(bbdd));
   return of(null).pipe(delay(1000));
 }
 
 export function crearFactura(facturaACrear) {
   let id = generateGuid();
+  let token = localStorage.getItem('token');
+  let creadorId = bbdd.tokens[token].usuarioId;
   bbdd.facturas[id] = {
     id,
     total: facturaACrear.total,
@@ -132,6 +160,7 @@ export function crearFactura(facturaACrear) {
     tipoDeReparticion: TipoDeReparticionModelo[facturaACrear.tipoDeReparticion],
     tipoDeFacturaId: facturaACrear.tipoDeFacturaId,
     fechaDeCreacion: new Date(),
+    creadorId,
   };
   facturaACrear.pagadores.forEach((pagador) => {
     bbdd.r_facturas_usuarios[`${id}-${pagador.usuarioId}`] = {
@@ -144,14 +173,33 @@ export function crearFactura(facturaACrear) {
           : pagador.total,
       estaPagada: false,
     };
-    debugger;
     gestionarSiElPagadorSeraSugerido(
       facturaACrear.creadorId,
       pagador.usuarioId
     );
   });
-
+  localStorage.setItem('bbdd', JSON.stringify(bbdd));
   return of(bbdd.facturas[id]).pipe(delay(1000));
+}
+
+export function pagarFacturaPorId(facturaId) {
+  let token = localStorage.getItem('token');
+  let bbddToken = bbdd.tokens[token];
+  let usuarioConectado = null;
+  if (token && bbddToken) {
+    usuarioConectado = gestionarExpiracionToken(bbddToken);
+    bbdd.r_facturas_usuarios[
+      `${facturaId}-${usuarioConectado.id}`
+    ].estaPagada = true;
+    if (
+      !bbdd.r_facturas_usuarios[`${facturaId}-${usuarioConectado.id}`].find(
+        (r) => !r.estaPagada
+      )
+    ) {
+      bbdd.facturas[facturaId].estaPagada = true;
+    }
+  }
+  return of(null).pipe(delay(1000));
 }
 
 function gestionarSiElPagadorSeraSugerido(creadorId, pagadorId) {
@@ -166,6 +214,7 @@ function gestionarSiElPagadorSeraSugerido(creadorId, pagadorId) {
       sugeridoId: pagadorId,
       fechaDeCreacion: new Date(),
     };
+
     return;
   }
   var pagadoresIds = [];
@@ -223,21 +272,28 @@ export function crearUsuario(usuarioACrear) {
     avatarURL: `https://api.adorable.io/avatars/${id}`,
     fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
   };
+  localStorage.setItem('bbdd', JSON.stringify(bbdd));
   return of(bbdd.usuarios[id]).pipe(delay(1000));
 }
 
-export function login(credenciales) {
+export function login(credenciales: CredencialesDTO) {
   let usuario: UsuarioModelo = { ...bbdd.usuarios[credenciales.id] };
   let token = generateGuid();
+  bbdd.tokens = {
+    [token]: {
+      usuarioId: usuario.id,
+      fechaDeExpiracion: new Date().getTime() + tiempoDeExpiracion, //2 horas y expira
+    },
+  };
+  localStorage.setItem('bbdd', JSON.stringify(bbdd));
   return of(token).pipe(delay(1000));
 }
 
-export function obtenerTodaLaBBDD() {
-  return of(bbdd).pipe(delay(1000));
-}
-
-export function sobreescribirBaseDeDatos(baseDeDatos) {
-  let asd = bbdd;
-  asd = baseDeDatos;
-  return of(asd).pipe(delay(1000));
+export function iniciarBackendConDatosDeLocalStorage() {
+  let bbddLocalStorage = JSON.parse(localStorage.getItem('bbdd'));
+  if (bbddLocalStorage) {
+    sobreEscribirBBDD(bbddLocalStorage);
+  } else {
+    localStorage.setItem('bbdd', JSON.stringify(bbdd));
+  }
 }

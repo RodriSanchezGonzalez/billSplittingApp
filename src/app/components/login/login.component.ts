@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     private formbuilder: FormBuilder,
     private userService: UsersService
   ) {
-    this.userService.getUsuarios();
+    this.userService.obtenerTodosLosUsuarios();
   }
 
   ngOnInit(): void {
@@ -33,7 +33,13 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm);
+    let usuarioDemo: User;
+    this.usuariosDemo.forEach((usuario) => {
+      if (usuario.demoActivada) {
+        usuarioDemo = usuario;
+      }
+    });
+    this.userService.iniciarSesionConUsuarioDemo(usuarioDemo);
   }
 
   mostrarUsuariosDemo() {
@@ -49,7 +55,6 @@ export class LoginComponent implements OnInit {
   obtenerTresUsuarios() {
     for (let index = 0; index < 3; index++) {
       this.usuariosDemo.push(this.userService.usuarios[index]);
-      console.log(this.usuariosDemo);
     }
   }
 }

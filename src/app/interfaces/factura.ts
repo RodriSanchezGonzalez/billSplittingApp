@@ -1,4 +1,5 @@
 import { TipoDeReparticionModelo } from './tipo-reparticion-modelo.enum';
+import { Pagador } from './pagador';
 
 export interface Factura {
   id: string;
@@ -9,4 +10,5 @@ export interface Factura {
   creadorId: string;
   fechaDeCreacion: Date;
   desplegado: boolean;
+  pagadores: Pagador[];
 }

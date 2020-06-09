@@ -21,3 +21,13 @@ export function obtenerNumeroDeVecesPorCadaElementoDeUnArray(lista) {
     {}
   );
 }
+
+export function obtenerArrayDeObjeto(obj) {
+  return Object.keys(obj).map((key) => obj[key]);
+}
+
+export function tokenHaExpirado(fechaExpiracionToken) {
+  return new Date().getTime() > fechaExpiracionToken;
+}
+
+export const tiempoDeExpiracion = 1 * 60 * 60 * 1000;

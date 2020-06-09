@@ -47,10 +47,16 @@
       <div class="usuario" *ngFor="let usuario of usuariosDemo">
         <h3 class="nombre">{{ usuario.nombre }}</h3>
         <img class="imagen" [src]="usuario.avatarURL" alt="" />
-        <button class="boton-login small">Go</button>
+        <button
+          class="boton-login small"
+          (click)="usuario.demoActivada = true"
+          type="submit"
+        >
+          Go
+        </button>
       </div>
     </div>
-    <button class="boton-login" (click)="mostrarUsuariosDemo()">
+    <button class="boton-login" type="button" (click)="mostrarUsuariosDemo()">
       {{ obtenerTextoDemo() }}
     </button>
   </form>

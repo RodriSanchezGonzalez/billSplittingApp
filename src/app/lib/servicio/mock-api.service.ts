@@ -7,7 +7,8 @@ import {
   PagadorDTO,
   TipoDeFacturaDTO,
 } from './Responses/responses.model';
-import { CrearUsuarioDTO } from './Requests/requests.model';
+import { CrearUsuarioDTO, CredencialesDTO } from './Requests/requests.model';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,16 @@ import { CrearUsuarioDTO } from './Requests/requests.model';
 export class MockApiService {
   constructor() {}
 
-  obtenerTodaLaBaseDeDatos$() {
-    return customHttp.obtenerTodaLaBBDD();
+  iniciarBackendConDatosDeLocalStorage(): void {
+    customHttp.iniciarBackendConDatosDeLocalStorage();
+  }
+
+  obtenerUsuarioConectado$(): Observable<UsuarioDTO> {
+    return customHttp.obtenerUsuarioConectado();
+  }
+
+  login$(credenciales: CredencialesDTO): Observable<string> {
+    return customHttp.login(credenciales);
   }
 
   /* GET */
@@ -62,12 +71,19 @@ export class MockApiService {
   }
   /* PUT */
 
+  pagarFacturaPorId$(facturaId: string): Observable<null> {
+    return customHttp.pagarFacturaPorId(facturaId);
+  }
+
   /* POST */
   crearUsuario$(usuarioACrear: CrearUsuarioDTO): Observable<UsuarioDTO> {
     return customHttp.crearUsuario(usuarioACrear);
   }
 
-  anadirContacto$(usuarioId, contactoId): Observable<UsuarioDTO> {
+  anadirContacto$(
+    usuarioId: string,
+    contactoId: string
+  ): Observable<UsuarioDTO> {
     return customHttp.anadirContacto(usuarioId, contactoId);
   }
 
@@ -75,9 +91,6 @@ export class MockApiService {
     return customHttp.crearFactura(facturaACrear);
   }
 
-  sobreescribirBaseDeDatos$(baseDeDatos): Observable<Array<UsuarioDTO>> {
-    return customHttp.sobreescribirBaseDeDatos(baseDeDatos);
-  }
   /* DELETE */
 
   eliminarContacto$(usuarioId, contactoId): Observable<null> {

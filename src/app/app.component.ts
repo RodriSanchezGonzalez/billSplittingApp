@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MockApiService } from './lib/servicio/mock-api.service';
+import { UsersService } from './services/users.service';
 
 @Component({
   selector: 'app-root',
@@ -8,17 +9,14 @@ import { MockApiService } from './lib/servicio/mock-api.service';
 })
 export class AppComponent implements OnInit {
   title = 'billSplittingApp';
-  bbdd: any;
 
-  constructor(private mockApiService: MockApiService) {}
+  constructor(
+    private _mockApiService: MockApiService,
+    public _userService: UsersService
+  ) {}
 
   ngOnInit(): void {
-    this.mockApiService.obtenerTodaLaBaseDeDatos$().subscribe((datos) => {
-      let objeto = {
-        nombre: 'Rodrigo',
-        email: 'email.com',
-      };
-      this.mockApiService.sobreescribirBaseDeDatos$(objeto).subscribe();
-    });
+    this._mockApiService.iniciarBackendConDatosDeLocalStorage();
+    this._userService.obtenerUsuarioConectado();
   }
 }

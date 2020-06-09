@@ -170,6 +170,7 @@ var facturas = {
     tipoDeReparticion: "Igualitaria",
     tipoDeFacturaId: "215a3785-65fe-4ba0-8477-5d3050fc46a0",
     fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
+    creadorId: "77baf3f2-e2d1-42c5-b5fd-57ac681b4554",
   },
   "e543dd69-8a57-4b82-b9e4-6987415af4af": {
     id: "e543dd69-8a57-4b82-b9e4-6987415af4af",
@@ -178,6 +179,7 @@ var facturas = {
     tipoDeReparticion: "Especifica",
     tipoDeFacturaId: "215a3785-65fe-4ba0-8477-5d3050fc46a0",
     fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
+    creadorId: "77baf3f2-e2d1-42c5-b5fd-57ac681b4554",
   },
 };
 
@@ -239,4 +241,9 @@ export var bbdd = {
   facturas,
   r_facturas_usuarios,
   tipo_de_facturas,
+  tokens: {},
 };
+
+export function sobreEscribirBBDD(bbddLocal) {
+  bbdd = { ...bbddLocal };
+}

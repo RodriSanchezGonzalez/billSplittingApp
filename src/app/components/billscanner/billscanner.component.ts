@@ -28,7 +28,7 @@ export class BillscannerComponent implements OnInit {
       let cuentaRandom: number = Math.random() * 100;
       setTimeout(() => {
         this.escaneandoCuenta = false;
-        this.router.navigate(['/billdetails'], {
+        this.router.navigate(['/facturas/idTemporal'], {
           queryParams: { cantidad: cuentaRandom.toFixed(2) },
         });
       }, 3000);

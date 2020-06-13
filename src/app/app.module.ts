@@ -15,6 +15,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BillsListComponent } from './components/bills-list/bills-list.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
+import { PerfilUsuarioComponent } from './components/perfil-usuario/perfil-usuario.component';
+import { CrearUsuarioComponent } from './components/crear-usuario/crear-usuario.component';
+import { ListaContactosComponent } from './component/lista-contactos/lista-contactos.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +28,9 @@ import { RegisterComponent } from './components/register/register.component';
     BillsListComponent,
     ProfileComponent,
     RegisterComponent,
+    PerfilUsuarioComponent,
+    CrearUsuarioComponent,
+    ListaContactosComponent,
   ],
   imports: [
     BrowserModule,

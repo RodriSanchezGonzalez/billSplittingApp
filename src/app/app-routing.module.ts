@@ -7,6 +7,8 @@ import { LoginComponent } from './components/login/login.component';
 import { BillsListComponent } from './components/bills-list/bills-list.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
+import { CrearUsuarioComponent } from './components/crear-usuario/crear-usuario.component';
+import { PerfilUsuarioComponent } from './components/perfil-usuario/perfil-usuario.component';
 
 const RUTAS: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -18,6 +20,15 @@ const RUTAS: Routes = [
   {
     path: 'facturas/:facturaId',
     component: BillsdetailsComponent,
+    canActivate: [NotAuthGuard],
+  },
+  {
+    path: 'usuario/:usuarioId',
+    component: PerfilUsuarioComponent,
+  },
+  {
+    path: 'crearUsuario',
+    component: CrearUsuarioComponent,
     canActivate: [NotAuthGuard],
   },
   {

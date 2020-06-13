@@ -61,4 +61,8 @@ export class UsersService {
       this.router.navigateByUrl('/billsList');
     });
   }
+
+  public obtenerUsuario(usuarioID: string) {
+    return this.mockApiService.obtenerUsuarioPorId$(usuarioID);
+  }
 }

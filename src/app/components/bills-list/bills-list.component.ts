@@ -64,7 +64,6 @@ export class BillsListComponent implements OnInit {
   }
 
   pagarFactura(facturaAPagar: Factura) {
-    debugger;
     this.facturasService.pagarFactura(facturaAPagar);
     this.facturasService.obtenerFacturas(this.userService.usuarioActivo.id);
   }

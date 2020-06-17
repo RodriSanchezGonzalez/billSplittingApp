@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FacturasService } from 'src/app/services/facturas.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-billscanner',
@@ -11,7 +13,11 @@ export class BillscannerComponent implements OnInit {
   cantidadManual: number;
   escaneandoCuenta: boolean;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private _facturaService: FacturasService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.esCuentaManual = false;
@@ -28,6 +34,7 @@ export class BillscannerComponent implements OnInit {
       let cuentaRandom: number = Math.random() * 100;
       setTimeout(() => {
         this.escaneandoCuenta = false;
+        this._facturaService.limpiarPagadoresDeFacturaAnterior();
         this.router.navigate(['/facturas/idTemporal'], {
           queryParams: { cantidad: cuentaRandom.toFixed(2) },
         });
@@ -43,8 +50,12 @@ export class BillscannerComponent implements OnInit {
   }
 
   navegar(cadena?: string) {
-    this.router.navigate([cadena], {
-      queryParams: { cantidad: this.cantidadManual },
-    });
+    if (!cadena) {
+      this.location.back();
+    } else {
+      this.router.navigate([cadena], {
+        queryParams: { cantidad: this.cantidadManual },
+      });
+    }
   }
 }

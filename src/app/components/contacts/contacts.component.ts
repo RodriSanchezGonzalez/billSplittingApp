@@ -23,78 +23,39 @@ export class ContactsComponent implements OnInit {
 
   ngOnInit(): void {
     this.todosSeleccionados = false;
-    this._userService.obtenerTodosLosUsuarios();
+    this._userService.obtenerContactosDeUsuario(
+      this._userService.usuarioActivo.id
+    );
     this._userService.obtenerLosUsuariosSugeridos();
   }
 
-  seleccionarTodos() {
-    this.todosSeleccionados = !this.todosSeleccionados;
-    if (this.todosMismaPropiedadDeSeleccion()) {
-      this.revertirSeleccionados();
-    } else {
-      this.rellenarContactosNoSeleccionados();
-    }
-  }
-
-  rellenarContactosNoSeleccionados() {
-    for (let index = 0; index < this._userService.usuarios.length; index++) {
-      this._userService.usuarios[index].esContactoSeleccionado = true;
-    }
-    for (
-      let index = 0;
-      index < this._userService.usuariosSugeridos.length;
-      index++
-    ) {
-      this._userService.usuariosSugeridos[index].esContactoSeleccionado = true;
-    }
-  }
-
-  revertirSeleccionados() {
-    for (
-      let indiceContacto = 0;
-      indiceContacto < this._userService.usuarios.length;
-      indiceContacto++
-    ) {
-      this._userService.usuarios[indiceContacto].esContactoSeleccionado = !this
-        ._userService.usuarios[indiceContacto].esContactoSeleccionado;
-    }
-    for (
-      let indiceContacto = 0;
-      indiceContacto < this._userService.usuariosSugeridos.length;
-      indiceContacto++
-    ) {
-      this._userService.usuariosSugeridos[
-        indiceContacto
-      ].esContactoSeleccionado = !this._userService.usuariosSugeridos[
-        indiceContacto
-      ].esContactoSeleccionado;
-    }
-  }
-
-  todosMismaPropiedadDeSeleccion() {
-    return (
-      this.calcularNumeroSeleccionados() === this.numeroContactos() ||
-      this.calcularNumeroSeleccionados() === 0
-    );
-  }
+  // todosMismaPropiedadDeSeleccion() {
+  //   return (
+  //     this.calcularNumeroSeleccionados() === this.numeroContactos() ||
+  //     this.calcularNumeroSeleccionados() === 0
+  //   );
+  // }
 
   numeroContactos() {
-    return this._userService.usuarios.length;
+    return this._userService.contactosDelUsuario.length;
   }
 
-  calcularNumeroSeleccionados() {
-    let seleccionados: number = 0;
-    for (
-      let indiceContacto = 0;
-      indiceContacto < this._userService.usuarios.length;
-      indiceContacto++
-    ) {
-      if (this._userService.usuarios[indiceContacto].esContactoSeleccionado) {
-        seleccionados++;
-      }
-    }
-    return seleccionados;
-  }
+  // calcularNumeroSeleccionados() {
+  //   let seleccionados: number = 0;
+  //   for (
+  //     let indiceContacto = 0;
+  //     indiceContacto < this._userService.contactosDelUsuario.length;
+  //     indiceContacto++
+  //   ) {
+  //     if (
+  //       this._userService.contactosDelUsuario[indiceContacto]
+  //         .esContactoSeleccionado
+  //     ) {
+  //       seleccionados++;
+  //     }
+  //   }
+  //   return seleccionados;
+  // }
 
   navegar(cadena?: string) {
     if (!cadena) {
@@ -105,49 +66,28 @@ export class ContactsComponent implements OnInit {
   }
 
   seleccionarContacto(contacto: User) {
-    this.seleccionaConctactoEnListaDeContactos(contacto);
-    this.seleccionaConctactoEnListaDeSugeridos(contacto);
-    this.todosSeleccionados = this.todosMismaPropiedadDeSeleccion();
-  }
-
-  seleccionaConctactoEnListaDeContactos(contactoSeleccionado: User) {
-    this.seleccionarUsuarioDeLaLista(
-      contactoSeleccionado,
-      this._userService.usuarios
-    );
-  }
-  seleccionaConctactoEnListaDeSugeridos(contactoSeleccionado: User) {
-    if (this._userService.usuariosSugeridos.length > 0) {
-      this.seleccionarUsuarioDeLaLista(
-        contactoSeleccionado,
-        this._userService.usuariosSugeridos
-      );
-    }
-  }
-
-  seleccionarUsuarioDeLaLista(
-    contactoSeleccionado: User,
-    listaUsuarios: User[]
-  ) {
-    listaUsuarios.find(
-      (usuario) => usuario.nombre === contactoSeleccionado.nombre
-    ).esContactoSeleccionado = !contactoSeleccionado.esContactoSeleccionado;
+    this._userService.seleccionarContacto(contacto);
+    // this.todosSeleccionados = this.todosMismaPropiedadDeSeleccion();
   }
 
   envioContactosDetalleFactura() {
-    let contactoSeleccionados = this._userService.usuarios.filter(
+    let contactosSeleccionados = this._userService.contactosDelUsuario.filter(
       (contacto) => contacto.esContactoSeleccionado
     );
-    this._facturaService.creaContactosDeFactura(contactoSeleccionados);
+    this._facturaService.creaContactosDeFactura(
+      contactosSeleccionados,
+      this._userService.usuarioActivo
+    );
     this.navegar();
   }
 
   filtrarContactos() {
+    debugger;
     let textoBusqueda: string = this.textoBusqueda;
     if (textoBusqueda === '' || !textoBusqueda) {
       return;
     } else {
-      this._userService.usuariosSugeridos = this._userService.usuarios.filter(
+      this._userService.usuariosSugeridos = this._userService.contactosDelUsuario.filter(
         (contacto) =>
           contacto.nombre
             .toLowerCase()

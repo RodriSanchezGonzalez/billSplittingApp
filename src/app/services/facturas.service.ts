@@ -4,6 +4,12 @@ import { Factura } from '../interfaces/factura';
 import { User } from '../interfaces/user';
 import { Pagador } from '../interfaces/pagador';
 import { UsersService } from './users.service';
+import { obtenerTiposDeFacturas } from '../lib/backend/backend';
+import { TipoDeFacturaDTO } from '../lib/servicio/Responses/responses.model';
+import {
+  TipoDeFacturaModelo,
+  TipoDeReparticionModelo,
+} from '../lib/backend/modelos.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +20,7 @@ export class FacturasService {
   public facturaAEditar: Factura;
   public pagadores: User[] = [];
   public creandoFactura: boolean = false;
+  public tiposDeFactura: TipoDeFacturaDTO[];
 
   obtenerFacturas(usuarioID: string) {
     this._mockApiService
@@ -36,51 +43,70 @@ export class FacturasService {
       .subscribe((factura: Factura) => (this.facturaAEditar = factura));
   }
 
+  limpiarPagadoresDeFacturaAnterior() {
+    this.pagadores = [];
+  }
+
   inicializarNuevaFactura(total: number, usuarioCreador: User) {
     this.facturaAEditar = {
       id: '',
       total: total,
       estaPagada: false,
       tipoDeReparticion: null,
-      tipoDeFacturaId: '215a3785-65fe-4ba0-8477-5d3050fc46a0',
+      tipoDeFacturaId: null,
       creadorId: usuarioCreador.id,
       fechaDeCreacion: null,
       desplegado: false,
       pagadores: [],
     };
-    console.log(this.facturaAEditar);
   }
 
-  creaContactosDeFactura(contactos: User[]) {
-    this.pagadores = contactos;
+  creaContactosDeFactura(contactos: User[], usuarioActivo: User) {
+    contactos.forEach((contacto) => {
+      this.pagadores.push({
+        id: contacto.id,
+        nombre: contacto.nombre,
+        apellidos: contacto.apellidos,
+        telefono: contacto.telefono,
+        avatarURL: contacto.avatarURL,
+        fechaDeCreacion: contacto.fechaDeCreacion,
+      });
+    });
+    this.pagadores.push(usuarioActivo);
+    this.añadirPagadoresALaFactura(usuarioActivo);
   }
 
   crearNuevaFactura(usuarioActivo: User) {
-    this.añadirPagadoresALaFactura(usuarioActivo);
-
-    this._mockApiService
-      .crearFactura$(this.facturaAEditar)
-      .subscribe((factura) => {
-        this.creandoFactura = true;
-        this.pagadores = [];
-        this.facturaAEditar = null;
-        this.creandoFactura = false;
-      });
+    if (
+      this.facturaAEditar.tipoDeReparticion ===
+      TipoDeReparticionModelo.Especifica
+    ) {
+      this._mockApiService
+        .crearFactura$(this.facturaAEditar)
+        .subscribe((factura) => {
+          this.creandoFactura = true;
+          this.pagadores = [];
+          this.facturaAEditar = null;
+          this.creandoFactura = false;
+        });
+    } else {
+      this.rellenarTotalesAPartesIguales();
+    }
   }
-
+  rellenarTotalesAPartesIguales() {
+    this.facturaAEditar.pagadores.forEach(
+      (pagador) =>
+        (pagador.total =
+          this.facturaAEditar.total / this.facturaAEditar.pagadores.length)
+    );
+  }
   añadirPagadoresALaFactura(usuarioActivo: User) {
-    this.facturaAEditar.pagadores.push({
-      facturaId: this.facturaAEditar.id,
-      usuarioId: usuarioActivo.id,
-      total: this.facturaAEditar.total / this.pagadores.length + 1,
-      estaPagada: false,
-    });
-
+    this.facturaAEditar.pagadores = [];
     this.pagadores.forEach((pagadorFactura) => {
       this.facturaAEditar.pagadores.push({
         facturaId: this.facturaAEditar.id,
         usuarioId: pagadorFactura.id,
-        total: this.facturaAEditar.total / this.pagadores.length + 1,
+        total: 0,
         estaPagada: false,
       });
     });
@@ -114,5 +140,16 @@ export class FacturasService {
             });
         });
       });
+  }
+  obtenerTiposDeFacturas() {
+    this._mockApiService
+      .obtenerTiposDeFacturas$()
+      .subscribe((tiposDeFactura) => (this.tiposDeFactura = tiposDeFactura));
+  }
+
+  obtenerNombreDelPagador(pagador: Pagador) {
+    return this.pagadores.find(
+      (pagadorConNombre) => pagador.usuarioId === pagadorConNombre.id
+    );
   }
 }

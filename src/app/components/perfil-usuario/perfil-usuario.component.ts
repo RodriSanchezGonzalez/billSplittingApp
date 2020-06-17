@@ -16,8 +16,7 @@ export class PerfilUsuarioComponent implements OnInit {
   avatarUrl: string;
 
   constructor(
-    private formbuilder: FormBuilder,
-    private _userService: UsersService,
+    public _userService: UsersService,
     private activatedRoute: ActivatedRoute,
     private route: Router,
     private location: Location
@@ -25,22 +24,14 @@ export class PerfilUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
-      this._userService
-        .obtenerUsuario(params['usuarioId'])
-        .subscribe((datosDeUsuario: User) => {
-          this.avatarUrl = datosDeUsuario.avatarURL;
-          this.formPerfil = this.formbuilder.group({
-            nombre: [datosDeUsuario.nombre],
-            apellidos: [datosDeUsuario.apellidos],
-            telefono: [datosDeUsuario.telefono],
-            fechaAlta: [datosDeUsuario.fechaDeCreacion],
-          });
-        });
+      this._userService.obtenerUsuario(params['usuarioId']);
+      this._userService.obtenerContactosDeUsuario(params['usuarioId']);
     });
   }
 
   navegar(cadena?: string) {
     if (!cadena) {
+      this.usarioPerfil = null;
       this.location.back();
     } else {
       this.route.navigate([cadena]);

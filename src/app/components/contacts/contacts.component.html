@@ -1,4 +1,6 @@
-<ng-container *ngIf="_userService.usuariosSugeridos && _userService.usuarios">
+<ng-container
+  *ngIf="_userService.usuariosSugeridos && _userService.contactosDelUsuario"
+>
   <div class="cabecera">
     <div class="barra">
       <img
@@ -45,42 +47,11 @@
     class="lista-contactos"
     *ngIf="!textoBusqueda; else listaContactosFiltrada"
   >
-    <div class="cabecera-contactos">
-      <p class="texto-seccion">All contacs</p>
-      <i
-        class="fas fa-check-double icono-seleccionar-todos"
-        [ngClass]="{ 'todos-seleccionados': todosSeleccionados }"
-        (click)="seleccionarTodos()"
-      ></i>
-    </div>
-
-    <div class="contenedor-contactos">
-      <div
-        *ngFor="let contacto of _userService?.usuarios"
-        class="contacto"
-        (click)="seleccionarContacto(contacto)"
-      >
-        <img
-          [src]="contacto.avatarURL"
-          alt=""
-          class="imagen-contacto"
-          [ngClass]="{
-            'contacto-seleccionado': contacto.esContactoSeleccionado
-          }"
-        />
-        <div class="detalle-contacto">
-          <h3 class="nombre">{{ contacto.nombre }}</h3>
-          <p class="numero">{{ contacto.telefono }}</p>
-        </div>
-
-        <i
-          *ngIf="contacto.esContactoSeleccionado"
-          class="fas fa-user-check contacto-seleccionado"
-        ></i>
-      </div>
-    </div>
+    <app-lista-contactos
+      [listaDeContactosAMostrar]="_userService.contactosDelUsuario"
+      [activarFunciones]="true"
+    ></app-lista-contactos>
   </div>
-
   <div class="boton-contacto" (click)="envioContactosDetalleFactura()">
     <img class="icono-mas" src="assets/img/icono-mas-azul.svg" alt="" />
   </div>

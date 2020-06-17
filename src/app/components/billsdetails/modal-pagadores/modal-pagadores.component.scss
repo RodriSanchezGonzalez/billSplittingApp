@@ -1,0 +1,105 @@
+.fondo {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+  .modal {
+    display: flex;
+    flex-direction: column;
+    background-color: #f7f7f7;
+    height: 40%;
+    width: 30%;
+    min-height: 25rem;
+    min-width: 25rem;
+    border-radius: 2rem;
+    .cabecera {
+      border-radius: 2rem;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+      height: 4rem;
+      padding: 0 1rem;
+      .icono-cerrar {
+        cursor: pointer;
+        width: 2.3rem;
+        height: 2.3rem;
+      }
+      .titulo {
+        font-family: Poppins;
+        font-size: 1.5rem;
+        font-weight: 500;
+        flex: 1;
+        color: white;
+      }
+    }
+
+    .contenido-modal {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1rem;
+      .pagador {
+        display: flex;
+        .nombre-pagador {
+          margin-right: 1rem;
+        }
+        .input-modal {
+          height: 2rem;
+        }
+      }
+    }
+
+    .botonera {
+      display: flex;
+      justify-content: space-evenly;
+      .boton-confirmar {
+        outline: none;
+        cursor: pointer;
+        font-family: Poppins;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: white;
+        margin-top: auto;
+        margin-bottom: 3rem;
+        padding: 1rem 4rem;
+        border: none;
+        background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+        border-radius: 3rem;
+        box-shadow: 0px 4px 4px 0px #4e0707;
+      }
+      .boton-confirmar:hover {
+        color: black;
+        background-image: none;
+        background-color: white;
+      }
+      .boton-cancelar {
+        outline: none;
+        cursor: pointer;
+        font-family: Poppins;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: white;
+        margin-top: auto;
+        margin-bottom: 3rem;
+        padding: 1rem 4rem;
+        border: none;
+        background: -webkit-linear-gradient(top, #ec5979, #e21d7f);
+        border-radius: 3rem;
+        box-shadow: 0px 4px 4px 0px #4e0707;
+      }
+      .boton-cancelar:hover {
+        color: black;
+        background-image: none;
+        background-color: rgba(194, 43, 16, 0.666);
+      }
+    }
+  }
+}

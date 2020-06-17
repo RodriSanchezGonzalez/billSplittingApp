@@ -155,11 +155,6 @@ var sugeridos = {
     sugeridoId: "6a0e3b34-126e-4d28-89b6-5e19be65543d",
     fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
   },
-  "77baf3f2-e2d1-42c5-b5fd-57ac681b4554-34a52a37-143a-4ff4-bd7c-340340a9e3cc": {
-    usuarioId: "77baf3f2-e2d1-42c5-b5fd-57ac681b4554",
-    sugeridoId: "34a52a37-143a-4ff4-bd7c-340340a9e3cc",
-    fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
-  },
 };
 
 var facturas = {
@@ -234,7 +229,7 @@ var tipo_de_facturas = {
   },
 };
 
-export var bbdd = {
+var _bbdd = {
   usuarios,
   contactos,
   sugeridos,
@@ -243,6 +238,8 @@ export var bbdd = {
   tipo_de_facturas,
   tokens: {},
 };
+
+export var bbdd = { ..._bbdd };
 
 export function sobreEscribirBBDD(bbddLocal) {
   bbdd = { ...bbddLocal };

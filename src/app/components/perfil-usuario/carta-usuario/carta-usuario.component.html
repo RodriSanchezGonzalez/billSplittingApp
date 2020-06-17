@@ -1,0 +1,22 @@
+<div class="card-avatar">
+  <img [src]="usuario?.avatarURL" alt="" class="imagen" />
+</div>
+<div class="card-details">
+  <div class="name">{{ usuario?.nombre }}</div>
+  <div class="occupation">
+    {{ usuario?.apellidos }}
+  </div>
+
+  <div class="card-about">
+    <div class="item">
+      <span class="value">{{ usuario?.telefono }}</span>
+      <span class="label">Teléfono</span>
+    </div>
+    <div class="item">
+      <span class="value">
+        {{ usuario?.fechaDeCreacion | date }}
+      </span>
+      <span class="label">Start Date</span>
+    </div>
+  </div>
+</div>

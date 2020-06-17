@@ -51,8 +51,10 @@ export function obtenerSugeridosPorUsuarioId(usuarioId: string) {
     .map((sugerido) => sugerido.sugeridoId);
   let usuariosSugeridos: Array<UsuarioModelo> = obtenerArrayDeObjeto(
     bbdd.usuarios
-  ).filter((usuario) => sugeridosIds.includes(usuario.id));
-  return of(usuariosSugeridos).pipe(delay(1000));
+  )
+    .filter((usuario) => sugeridosIds.includes(usuario.id))
+    .map((usuario) => ({ ...usuario }));
+  return of([...usuariosSugeridos]).pipe(delay(1000));
 }
 
 export function obtenerUsuarios() {
@@ -79,7 +81,7 @@ function gestionarExpiracionToken(bbddToken) {
   if (tokenHaExpirado(bbddToken.fechaDeExpiracion)) {
     localStorage.removeItem('token');
   } else {
-    usuarioConectado = bbdd.usuarios[bbddToken.usuarioId];
+    usuarioConectado = { ...bbdd.usuarios[bbddToken.usuarioId] };
   }
   return usuarioConectado;
 }
@@ -98,14 +100,17 @@ export function obtenerContactosPorUsuarioId(usuarioId: string) {
   let contactosIds: Array<string> = obtenerArrayDeObjeto(bbdd.contactos)
     .filter((contacto) => contacto.usuarioId === usuarioId)
     .map((contacto) => contacto.contactoId);
-  let contactos: Array<UsuarioModelo> = obtenerArrayDeObjeto(
-    bbdd.usuarios
-  ).filter((usuario) => contactosIds.includes(usuario.id));
-  return of(contactos).pipe(delay(1000));
+  let contactos: Array<UsuarioModelo> = obtenerArrayDeObjeto(bbdd.usuarios)
+    .filter((usuario) => contactosIds.includes(usuario.id))
+    .map((usuario) => ({ ...usuario }));
+  return of([...contactos]).pipe(delay(1000));
 }
 
 export function obtenerTiposDeFacturas() {
-  return of(obtenerArrayDeObjeto(bbdd.tipo_de_facturas)).pipe(delay(1000));
+  let tipoDeFacturas = obtenerArrayDeObjeto(
+    bbdd.tipo_de_facturas
+  ).map((tipoDeFactura) => ({ ...tipoDeFactura }));
+  return of([...tipoDeFacturas]).pipe(delay(1000));
 }
 
 /* Modifican datos */
@@ -131,7 +136,7 @@ export function anadirContacto(usuarioId, contactoId) {
     fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
   };
   localStorage.setItem('bbdd', JSON.stringify(bbdd));
-  return of(bbdd.usuarios[contactoId]).pipe(delay(1000));
+  return of({ ...bbdd.usuarios[contactoId] }).pipe(delay(1000));
 }
 
 export function eliminarContacto(usuarioId, contactoId) {
@@ -179,7 +184,7 @@ export function crearFactura(facturaACrear) {
     );
   });
   localStorage.setItem('bbdd', JSON.stringify(bbdd));
-  return of(bbdd.facturas[id]).pipe(delay(1000));
+  return of({ ...bbdd.facturas[id] }).pipe(delay(1000));
 }
 
 export function pagarFacturaPorId(facturaId) {
@@ -267,12 +272,12 @@ export function crearUsuario(usuarioACrear) {
     id,
     nombre: usuarioACrear.nombre,
     apellidos: usuarioACrear.apellidos,
-    telefono: '+34 661333454',
+    telefono: usuarioACrear.telefono,
     avatarURL: `https://api.adorable.io/avatars/${id}`,
     fechaDeCreacion: randomDate(new Date(2018, 0, 1), new Date()),
   };
   localStorage.setItem('bbdd', JSON.stringify(bbdd));
-  return of(bbdd.usuarios[id]).pipe(delay(1000));
+  return of({ ...bbdd.usuarios[id] }).pipe(delay(1000));
 }
 
 export function login(credenciales: CredencialesDTO) {

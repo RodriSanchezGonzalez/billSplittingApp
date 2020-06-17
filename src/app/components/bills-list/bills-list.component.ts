@@ -53,9 +53,6 @@ export class BillsListComponent implements OnInit {
   }
 
   editarFactura(factura: Factura) {
-    // this.facturasService.abrirFacturaParaEdicion(factura);
-    // this.router.navigateByUrl(`/facturas/${factura.id}`);
-
     this.toastr.warning('Avaible on next version. Sorry :(');
   }
 

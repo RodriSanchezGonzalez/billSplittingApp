@@ -7,6 +7,8 @@ import { FacturasService } from 'src/app/services/facturas.service';
 import { User } from 'src/app/interfaces/user';
 import { TipoDeReparticionModelo } from 'src/app/interfaces/tipo-reparticion-modelo.enum';
 import { UsersService } from 'src/app/services/users.service';
+import { TipoDeFacturaDTO } from 'src/app/lib/servicio/Responses/responses.model';
+
 @Component({
   selector: 'app-billsdetails',
   templateUrl: './billsdetails.component.html',
@@ -14,10 +16,9 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class BillsdetailsComponent implements OnInit {
   cantidadCuenta: number;
-  tipSeleccionado: string;
   splitSeleccionado: string;
-  propinaManual: number;
   TipoDeReparticionModelo = TipoDeReparticionModelo;
+  mostrarModalDePagadores: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -29,44 +30,52 @@ export class BillsdetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params) => {
-      if (params['facturaId'] !== 'idTemporal') {
-        this.facturaService.obtenerFacturaPorId(params['facturaId']);
-        this.facturaService.getPagadoresDeFactura(params['facturaId']);
-      }
-    });
+    let parametroIdFactura = this.activatedRoute.snapshot.paramMap.get(
+      'facturaId'
+    );
+    this.facturaService.obtenerTiposDeFacturas();
 
-    this.activatedRoute.params.subscribe((params) => {
-      if (params['facturaId'] === 'idTemporal') {
+    if (parametroIdFactura !== 'idTemporal') {
+      this.facturaService.obtenerFacturaPorId(parametroIdFactura);
+      this.facturaService.getPagadoresDeFactura(parametroIdFactura);
+    } else {
+      if (!this.facturaService.facturaAEditar) {
         this.activatedRoute.queryParams.subscribe((queryParams) => {
           this.facturaService.inicializarNuevaFactura(
-            queryParams['cantidad'],
+            +queryParams['cantidad'],
             this.userService.usuarioActivo
           );
         });
       }
-    });
+    }
+    this.mostrarModalDePagadores = false;
   }
 
   navegar(cadena?: string) {
     if (!cadena) {
+      this.facturaService.facturaAEditar = null;
       this.location.back();
     } else {
       this.route.navigate([cadena]);
     }
   }
 
-  mostratDetalleFinal() {
+  mostrarDetalleFinal() {
     if (this.facturaService.pagadores.length == 0) {
       this.toastr.error('You must choose the contacts first');
+      return;
     }
-
+    if (this.facturaService.facturaAEditar.tipoDeFacturaId === null) {
+      this.toastr.error('You must choose the bill type first');
+      return;
+    }
     if (this.facturaService.facturaAEditar.tipoDeReparticion === null) {
       this.toastr.error('You must choose the split type first');
+      return;
     } else {
       this.toastr.success('Bill created succesfully');
+      this.userService.contactosDelUsuario = [];
       this.facturaService.crearNuevaFactura(this.userService.usuarioActivo);
-
       setTimeout(() => this.route.navigate(['/billsList']), 2000);
     }
   }
@@ -77,9 +86,24 @@ export class BillsdetailsComponent implements OnInit {
 
   seleccionarTipoDeReparticion(tipoDeReparticion: TipoDeReparticionModelo) {
     this.facturaService.facturaAEditar.tipoDeReparticion = tipoDeReparticion;
+    this.mostrarModalDePagadores =
+      tipoDeReparticion === TipoDeReparticionModelo.Especifica;
   }
 
-  estanVisualizandoFactura() {
-    return this.facturaService.facturaAEditar.fechaDeCreacion;
+  estanCreandoFactura() {
+    return (
+      this.activatedRoute.snapshot.paramMap.get('facturaId') === 'idTemporal'
+    );
+  }
+  asignarTipoDeFactura(tipoDeFactura: TipoDeFacturaDTO) {
+    this.facturaService.facturaAEditar.tipoDeFacturaId = tipoDeFactura.id;
+  }
+  cancelarModal() {
+    this.mostrarModalDePagadores = false;
+  }
+
+  guardarImportesDePagadores() {
+    console.log('Hemos guardado modal');
+    this.mostrarModalDePagadores = false;
   }
 }

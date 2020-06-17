@@ -22,15 +22,6 @@
         <h3 class="subtitulo">Bill amount</h3>
         <h1 class="cuenta">
           $ {{ facturaService.facturaAEditar.total | number: ".2-2" }}
-          <small *ngIf="tipSeleccionado === 'porcentaje'" class="propina"
-            >+ Tip: {{ cantidadCuenta * 0.1 | number: ".2-2" }}</small
-          >
-          <small *ngIf="tipSeleccionado === 'dolares'" class="propina"
-            >+ Tip: {{ 20 | number: ".2-2" }}</small
-          >
-          <small *ngIf="tipSeleccionado === 'manual'" class="propina"
-            >+ Tip: {{ propinaManual | number: ".2-2" }}</small
-          >
         </h1>
       </div>
       <img src="assets/img/icono.svg" alt="" class="icono" />
@@ -46,13 +37,14 @@
             alt=""
             class="imagen-contacto"
             *ngFor="let contacto of facturaService.pagadores"
+            [routerLink]="['/usuario', contacto.id]"
           />
         </div>
 
         <div
           class="icono-mas"
           (click)="navegar('/contacts')"
-          *ngIf="!estanVisualizandoFactura()"
+          *ngIf="estanCreandoFactura()"
         >
           <svg
             viewBox="0 0 17 17"
@@ -69,33 +61,24 @@
     </div>
 
     <div class="suma-propina">
-      <p class="texto-seccion">Add tip amount</p>
+      <p class="texto-seccion">Add bill type</p>
       <div class="botonera-propina">
-        <button
-          class="boton-propina"
-          [ngClass]="{ seleccionado: tipSeleccionado === 'porcentaje' }"
-          (click)="tipSeleccionado = 'porcentaje'"
-          [disabled]="estanVisualizandoFactura()"
+        <ng-container
+          *ngFor="let tipoDeFactura of facturaService.tiposDeFactura"
         >
-          10%
-        </button>
-        <button
-          class="boton-propina"
-          [ngClass]="{ seleccionado: tipSeleccionado === 'dolares' }"
-          (click)="tipSeleccionado = 'dolares'"
-          [disabled]="estanVisualizandoFactura()"
-        >
-          $20
-        </button>
-        <input
-          class="input-propina"
-          type="text"
-          placeholder="Enter manually"
-          [ngClass]="{ seleccionado: tipSeleccionado === 'manual' }"
-          (click)="tipSeleccionado = 'manual'"
-          [(ngModel)]="propinaManual"
-          [disabled]="estanVisualizandoFactura()"
-        />
+          <img
+            [src]="tipoDeFactura.imagenURL"
+            class="tipo-factura"
+            [ngClass]="{
+              seleccionado:
+                tipoDeFactura.id ===
+                facturaService.facturaAEditar.tipoDeFacturaId
+            }"
+            (click)="
+              estanCreandoFactura() && asignarTipoDeFactura(tipoDeFactura)
+            "
+          />
+        </ng-container>
       </div>
     </div>
     <div class="dividir-cuenta">
@@ -111,7 +94,7 @@
           (click)="
             seleccionarTipoDeReparticion(TipoDeReparticionModelo.Igualitaria)
           "
-          [disabled]="estanVisualizandoFactura()"
+          [disabled]="!estanCreandoFactura()"
         >
           Equally
         </button>
@@ -126,7 +109,7 @@
           (click)="
             seleccionarTipoDeReparticion(TipoDeReparticionModelo.Especifica)
           "
-          [disabled]="estanVisualizandoFactura()"
+          [disabled]="!estanCreandoFactura()"
         >
           By consumption
         </button>
@@ -139,10 +122,15 @@
   >
     <button
       class="boton-procede"
-      (click)="mostratDetalleFinal()"
-      *ngIf="!estanVisualizandoFactura()"
+      (click)="mostrarDetalleFinal()"
+      *ngIf="estanCreandoFactura()"
     >
       Create bill
     </button>
   </div>
 </div>
+<app-modal-pagadores
+  *ngIf="mostrarModalDePagadores"
+  (eventoGuardarImportesDePagadores)="guardarImportesDePagadores()"
+  (eventoCancelarModal)="cancelarModal()"
+></app-modal-pagadores>

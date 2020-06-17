@@ -12,43 +12,13 @@
     </svg>
     <h1 class="titulo">Perfil de usuario</h1>
   </div>
-
-  <form [formGroup]="formPerfil" *ngIf="formPerfil" class="contenido">
-    <img [src]="avatarUrl" alt="" class="imagen" />
-
-    <label for="" class="label">Name </label
-    ><input
-      type="text"
-      formControlName="nombre"
-      class="input"
-      [disabled]="true"
-    />
-
-    <label for="" class="label">LastName </label
-    ><input
-      type="text"
-      formControlName="apellidos"
-      class="input"
-      [disabled]="true"
-    />
-
-    <label for="" class="label">Phone </label>
-    <input
-      type="text"
-      formControlName="telefono"
-      class="input"
-      [disabled]="true"
-    />
-    <label for="" class="label">Start Date </label
-    ><input
-      type="text"
-      formControlName="fechaAlta"
-      class="input"
-      [disabled]="true"
-    />
-  </form>
-
-  <div class="listaDeContactos">
-    Crear componente de la lista de contactos y meterla aquí
+  <div class="contenido">
+    <app-carta-usuario
+      [usuario]="_userService.perfilUsuario"
+    ></app-carta-usuario>
+    <app-lista-contactos
+      [listaDeContactosAMostrar]="_userService?.contactosDelUsuario"
+      [activarFunciones]="false"
+    ></app-lista-contactos>
   </div>
 </div>

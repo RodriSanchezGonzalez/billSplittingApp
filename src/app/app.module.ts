@@ -17,7 +17,10 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PerfilUsuarioComponent } from './components/perfil-usuario/perfil-usuario.component';
 import { CrearUsuarioComponent } from './components/crear-usuario/crear-usuario.component';
-import { ListaContactosComponent } from './component/lista-contactos/lista-contactos.component';
+import { ListaContactosComponent } from './shared/lista-contactos/lista-contactos.component';
+import { CartaUsuarioComponent } from './components/perfil-usuario/carta-usuario/carta-usuario.component';
+import { ModalPagadoresComponent } from './components/billsdetails/modal-pagadores/modal-pagadores.component';
+import { CargandoComponent } from './shared/cargando/cargando.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +34,9 @@ import { ListaContactosComponent } from './component/lista-contactos/lista-conta
     PerfilUsuarioComponent,
     CrearUsuarioComponent,
     ListaContactosComponent,
+    CartaUsuarioComponent,
+    ModalPagadoresComponent,
+    CargandoComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,73 @@
+:host {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 2rem;
+  .cabecera-contactos {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.8rem;
+    .texto-seccion {
+      flex: 1;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 1.4rem;
+      line-height: 1.6rem;
+      color: #aeafbc;
+    }
+    .icono-seleccionar-todos {
+      cursor: pointer;
+      opacity: 0.5;
+      margin-right: 2.9rem;
+      &.todos-seleccionados {
+        opacity: 1;
+      }
+    }
+  }
+
+  .contenedor-contactos {
+    flex: 1;
+    overflow-y: auto;
+    .contacto {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.8rem;
+      .imagen-contacto {
+        width: 100%;
+        border: 1.5px solid #f0f2ff;
+        border-radius: 50%;
+        max-width: 4rem;
+        max-height: 4rem;
+        margin-right: 1.4rem;
+        opacity: 0.5;
+        &.contacto-seleccionado {
+          opacity: 1;
+        }
+        &.eliminarOpacity {
+          opacity: 1;
+        }
+      }
+      .detalle-contacto {
+        flex: 1;
+        .nombre {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 1.8rem;
+          line-height: 2.1rem;
+          color: #1c1c1c;
+          margin-bottom: 0.5rem;
+        }
+        .numero {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 1.4rem;
+          line-height: 1.6rem;
+          color: #aeafbc;
+        }
+      }
+    }
+  }
+}

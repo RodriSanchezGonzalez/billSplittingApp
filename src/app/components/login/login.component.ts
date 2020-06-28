@@ -1,30 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { faSignature } from '@fortawesome/free-solid-svg-icons';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/interfaces/user';
+import { UsuariosBSService } from 'src/app/services/usuarios-bs.service';
+import { Subscription } from 'rxjs';
+import { Credencial } from 'src/app/interfaces/credencial';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   email: string;
   password: string;
   loginForm: FormGroup;
   faSignature = faSignature;
   clickEnDemo: boolean;
-  usuariosDemo: User[] = [];
-
+  usuariosDemo: User[];
+  usuarios: User[];
+  suscripcion: Subscription;
   constructor(
     private formbuilder: FormBuilder,
-    private userService: UsersService
-  ) {
-    this.userService.obtenerTodosLosUsuarios();
-  }
+    private _userService: UsuariosBSService
+  ) {}
 
   ngOnInit(): void {
+    this.usuarios = [];
+
+    this._userService.obtenerTodosLosUsuarios();
+    this.suscripcion = this._userService
+      .obtenerUsuarios$()
+      .subscribe((usuarios) => (this.usuarios = usuarios));
     this.loginForm = this.formbuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -32,18 +40,22 @@ export class LoginComponent implements OnInit {
     this.clickEnDemo = false;
   }
 
+  ngOnDestroy() {
+    this.suscripcion.unsubscribe();
+  }
+
   login() {
     let usuarioDemo: User;
-    this.usuariosDemo.forEach((usuario) => {
-      if (usuario.demoActivada) {
-        usuarioDemo = usuario;
-      }
-    });
-    this.userService.iniciarSesionConUsuarioDemo(usuarioDemo);
+    usuarioDemo = this.usuariosDemo.find((usuario) => usuario.demoActivada);
+
+    let credenciales: Credencial;
+    credenciales = {
+      id: usuarioDemo.id,
+    };
+    this._userService.iniciarSesionConUsuarioDemo(credenciales);
   }
 
   mostrarUsuariosDemo() {
-    this.usuariosDemo = [];
     this.clickEnDemo = !this.clickEnDemo;
     this.obtenerTresUsuarios();
   }
@@ -53,8 +65,6 @@ export class LoginComponent implements OnInit {
   }
 
   obtenerTresUsuarios() {
-    for (let index = 0; index < 3; index++) {
-      this.usuariosDemo.push(this.userService.usuarios[index]);
-    }
+    this.usuariosDemo = this.usuarios.slice(0, 3);
   }
 }

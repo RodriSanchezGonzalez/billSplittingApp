@@ -13,11 +13,9 @@
     <h1 class="titulo">Perfil de usuario</h1>
   </div>
   <div class="contenido">
-    <app-carta-usuario
-      [usuario]="_userService.perfilUsuario"
-    ></app-carta-usuario>
+    <app-carta-usuario [usuario]="usuarioPerfil"></app-carta-usuario>
     <app-lista-contactos
-      [listaDeContactosAMostrar]="_userService?.contactosDelUsuario"
+      [listaDeContactosAMostrar]="usuarioPerfil?.contactos"
       [activarFunciones]="false"
     ></app-lista-contactos>
   </div>

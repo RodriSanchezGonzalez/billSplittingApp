@@ -1,61 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/interfaces/user';
-import { FacturasService } from 'src/app/services/facturas.service';
+import { UsuariosBSService } from 'src/app/services/usuarios-bs.service';
+import { FacturasBSService } from 'src/app/services/facturas-bs.service';
+import { Subscription } from 'rxjs';
+import { Factura } from 'src/app/interfaces/factura';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss'],
 })
-export class ContactsComponent implements OnInit {
+export class ContactsComponent implements OnInit, OnDestroy {
   textoBusqueda: string;
   todosSeleccionados: boolean;
+  usuario: User;
+  factura: Factura;
+  suscripcionUsuario: Subscription;
+  suscripcionFactura: Subscription;
 
   constructor(
     private route: Router,
     private location: Location,
-    public _userService: UsersService,
-    private _facturaService: FacturasService
+    public _userService: UsuariosBSService,
+    private _facturaService: FacturasBSService
   ) {}
 
   ngOnInit(): void {
     this.todosSeleccionados = false;
-    this._userService.obtenerContactosDeUsuario(
-      this._userService.usuarioActivo.id
-    );
-    this._userService.obtenerLosUsuariosSugeridos();
+
+    this.suscripcionUsuario = this._userService
+      .obtenerUsuarioActivo$()
+      .subscribe((usuario) => {
+        this.usuario = usuario;
+        if (!this.usuario.contactos) {
+          this._userService.obtenerContactosDeUsuario(this.usuario);
+          this._userService.obtenerLosUsuariosSugeridos(this.usuario);
+        }
+        this.suscripcionFactura = this._facturaService
+          .obtenerFacturaSeleccionada$()
+          .subscribe((factura) => (this.factura = factura));
+      });
   }
 
-  // todosMismaPropiedadDeSeleccion() {
-  //   return (
-  //     this.calcularNumeroSeleccionados() === this.numeroContactos() ||
-  //     this.calcularNumeroSeleccionados() === 0
-  //   );
-  // }
-
-  numeroContactos() {
-    return this._userService.contactosDelUsuario.length;
+  ngOnDestroy() {
+    this.suscripcionUsuario.unsubscribe();
+    this.suscripcionFactura.unsubscribe();
   }
-
-  // calcularNumeroSeleccionados() {
-  //   let seleccionados: number = 0;
-  //   for (
-  //     let indiceContacto = 0;
-  //     indiceContacto < this._userService.contactosDelUsuario.length;
-  //     indiceContacto++
-  //   ) {
-  //     if (
-  //       this._userService.contactosDelUsuario[indiceContacto]
-  //         .esContactoSeleccionado
-  //     ) {
-  //       seleccionados++;
-  //     }
-  //   }
-  //   return seleccionados;
-  // }
 
   navegar(cadena?: string) {
     if (!cadena) {
@@ -66,17 +58,19 @@ export class ContactsComponent implements OnInit {
   }
 
   seleccionarContacto(contacto: User) {
-    this._userService.seleccionarContacto(contacto);
+    this._userService.seleccionarContacto(contacto, this.usuario);
+
     // this.todosSeleccionados = this.todosMismaPropiedadDeSeleccion();
   }
 
   envioContactosDetalleFactura() {
-    let contactosSeleccionados = this._userService.contactosDelUsuario.filter(
+    let contactosSeleccionados = this.usuario.contactos.filter(
       (contacto) => contacto.esContactoSeleccionado
     );
     this._facturaService.creaContactosDeFactura(
       contactosSeleccionados,
-      this._userService.usuarioActivo
+      this.usuario,
+      this.factura
     );
     this.navegar();
   }
@@ -87,7 +81,7 @@ export class ContactsComponent implements OnInit {
     if (textoBusqueda === '' || !textoBusqueda) {
       return;
     } else {
-      this._userService.usuariosSugeridos = this._userService.contactosDelUsuario.filter(
+      this.usuario.sugeridos = this.usuario.contactos.filter(
         (contacto) =>
           contacto.nombre
             .toLowerCase()

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MockApiService } from './lib/servicio/mock-api.service';
 import { UsersService } from './services/users.service';
+import { UsuariosBSService } from './services/usuarios-bs.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,8 @@ export class AppComponent implements OnInit {
   title = 'billSplittingApp';
 
   constructor(
-    private _mockApiService: MockApiService,
-    public _userService: UsersService
+    public _mockApiService: MockApiService,
+    public _userService: UsuariosBSService
   ) {}
 
   ngOnInit(): void {

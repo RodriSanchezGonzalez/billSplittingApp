@@ -1,7 +1,4 @@
-<div
-  class="contenedor-billdetails"
-  *ngIf="facturaService.facturaAEditar && facturaService.pagadores"
->
+<div class="contenedor-billdetails" *ngIf="factura">
   <div class="contenedor-cabecera">
     <div class="navegador">
       <svg
@@ -20,9 +17,7 @@
     <div class="contenedor-detalle-cuenta">
       <div class="detalle-cuenta">
         <h3 class="subtitulo">Bill amount</h3>
-        <h1 class="cuenta">
-          $ {{ facturaService.facturaAEditar.total | number: ".2-2" }}
-        </h1>
+        <h1 class="cuenta">$ {{ factura.total | number: ".2-2" }}</h1>
       </div>
       <img src="assets/img/icono.svg" alt="" class="icono" />
     </div>
@@ -36,14 +31,14 @@
             [src]="contacto.avatarURL"
             alt=""
             class="imagen-contacto"
-            *ngFor="let contacto of facturaService.pagadores"
+            *ngFor="let contacto of factura?.usuariosPagadores"
             [routerLink]="['/usuario', contacto.id]"
           />
         </div>
 
         <div
           class="icono-mas"
-          (click)="navegar('/contacts')"
+          (click)="navegar('contacts')"
           *ngIf="estanCreandoFactura()"
         >
           <svg
@@ -64,15 +59,15 @@
       <p class="texto-seccion">Add bill type</p>
       <div class="botonera-propina">
         <ng-container
-          *ngFor="let tipoDeFactura of facturaService.tiposDeFactura"
+          *ngFor="
+            let tipoDeFactura of facturaService.obtenerTiposDeFactura$() | async
+          "
         >
           <img
             [src]="tipoDeFactura.imagenURL"
             class="tipo-factura"
             [ngClass]="{
-              seleccionado:
-                tipoDeFactura.id ===
-                facturaService.facturaAEditar.tipoDeFacturaId
+              seleccionado: tipoDeFactura.id === factura.tipoDeFacturaId
             }"
             (click)="
               estanCreandoFactura() && asignarTipoDeFactura(tipoDeFactura)
@@ -87,9 +82,7 @@
         <button
           class="boton-dividir"
           [ngClass]="{
-            seleccionado: estaDividaAPartesIguales(
-              facturaService.facturaAEditar.tipoDeReparticion
-            )
+            seleccionado: estaDividaAPartesIguales(factura.tipoDeReparticion)
           }"
           (click)="
             seleccionarTipoDeReparticion(TipoDeReparticionModelo.Igualitaria)
@@ -102,9 +95,8 @@
           class="boton-dividir consumption"
           [ngClass]="{
             seleccionado:
-              !estaDividaAPartesIguales(
-                facturaService.facturaAEditar.tipoDeReparticion
-              ) && facturaService.facturaAEditar.tipoDeReparticion
+              !estaDividaAPartesIguales(factura.tipoDeReparticion) &&
+              factura.tipoDeReparticion
           }"
           (click)="
             seleccionarTipoDeReparticion(TipoDeReparticionModelo.Especifica)
@@ -116,10 +108,7 @@
       </div>
     </div>
   </div>
-  <div
-    class="contenedor-boton"
-    *ngIf="!facturaService.facturaAEditar.estaPagada"
-  >
+  <div class="contenedor-boton" *ngIf="!factura.estaPagada">
     <button
       class="boton-procede"
       (click)="mostrarDetalleFinal()"

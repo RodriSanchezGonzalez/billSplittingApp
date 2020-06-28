@@ -18,7 +18,7 @@
       width: 100%;
       color: white;
       background: -webkit-linear-gradient(top, #7579ff, #b224ef);
-      max-height: 17rem;
+      height: 17rem;
       border-radius: 1.2rem;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
@@ -33,6 +33,7 @@
           font-weight: 500;
           font-size: 2.6rem;
           line-height: 3.1rem;
+          text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
         }
         .icono-atras {
           cursor: pointer;

@@ -2,8 +2,11 @@
   <p class="texto-seccion">All contacs</p>
   <i
     class="fas fa-check-double icono-seleccionar-todos"
-    [ngClass]="{ 'todos-seleccionados': _usersService.todosSeleccionados }"
-    (click)="_usersService.seleccionarTodos()"
+    [ngClass]="{
+      'todos-seleccionados':
+        _usersService.obtenerTodosLosContactosSeleccionados$() | async
+    }"
+    (click)="_usersService.seleccionarTodos(true, usuarioActivo)"
     *ngIf="activarFunciones"
   ></i>
 </div>

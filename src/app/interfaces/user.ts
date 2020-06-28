@@ -1,3 +1,5 @@
+import { Factura } from './factura';
+
 export interface User {
   id: string;
   nombre: string;
@@ -8,4 +10,7 @@ export interface User {
   demoActivada?: boolean;
   esContactoSeleccionado?: boolean;
   totalAlCrearFactura?: number;
+  facturas?: Factura[];
+  sugeridos?: User[];
+  contactos?: User[];
 }

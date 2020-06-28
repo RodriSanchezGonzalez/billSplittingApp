@@ -58,6 +58,8 @@ export class FacturasService {
       fechaDeCreacion: null,
       desplegado: false,
       pagadores: [],
+      usuariosPagadores: [],
+      haPagadoElUsuarioActivo: false,
     };
   }
 

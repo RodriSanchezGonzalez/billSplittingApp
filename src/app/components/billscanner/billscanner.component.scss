@@ -12,15 +12,14 @@
     width: 100%;
     background: -webkit-linear-gradient(top, #7579ff, #b224ef);
     border-radius: 1.2rem;
-    box-shadow: 0px 4px 4px 0px #4e0707;
-
+    box-shadow: 0 4rem 4rem 0 #4e0707;
     .cabecera {
       width: 100%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       height: 17rem;
-      padding: 4rem 3rem 1rem;
+      padding: 0 3rem 1rem;
       .icono-atras {
         cursor: pointer;
         max-height: 2.5rem;
@@ -31,10 +30,12 @@
       }
       .titulo {
         flex: 1;
+        color: white;
         text-align: left;
         font-weight: 500;
         font-size: 2.6rem;
         line-height: 3.1rem;
+        text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
       }
       .icono-cabecera {
         cursor: pointer;

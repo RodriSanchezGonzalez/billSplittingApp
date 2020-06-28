@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="_userService.usuariosSugeridos && _userService.contactosDelUsuario"
->
+<ng-container *ngIf="usuario && usuario.contactos && usuario.sugeridos">
   <div class="cabecera">
     <div class="barra">
       <img
@@ -23,12 +21,12 @@
     <p class="texto-seccion">Suggested people</p>
     <div>
       <div class="lista">
-        <p *ngIf="_userService.usuariosSugeridos.length === 0">
+        <p *ngIf="usuario?.sugeridos.length === 0">
           Don´t have suggested people
         </p>
         <div
           class="contacto-sugerido"
-          *ngFor="let contacto of _userService?.usuariosSugeridos"
+          *ngFor="let contacto of usuario.sugeridos"
           (click)="seleccionarContacto(contacto)"
         >
           <img
@@ -48,7 +46,7 @@
     *ngIf="!textoBusqueda; else listaContactosFiltrada"
   >
     <app-lista-contactos
-      [listaDeContactosAMostrar]="_userService.contactosDelUsuario"
+      [listaDeContactosAMostrar]="usuario.contactos"
       [activarFunciones]="true"
     ></app-lista-contactos>
   </div>
@@ -61,7 +59,7 @@
       <p class="texto-seccion">Contacts filtered</p>
       <div class="contenedor-contactos">
         <div
-          *ngFor="let contacto of _userService?.usuariosSugeridos"
+          *ngFor="let contacto of usuario.sugeridos"
           class="contacto"
           (click)="seleccionarContacto(contacto)"
         >
